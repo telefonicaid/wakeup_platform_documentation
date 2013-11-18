@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="intro"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Introduction</title>
+  <para>
+    Today, all mobile platform has it's own Push platform used to deliver
+    asynchronous messages.
+  </para>
+  <para>
+    All these platforms have a common denominator, all of them maintains a TCP
+    socket opened all the time.
+  </para>
+  <para>
+    This socket will be used to deliver the notifications when it's needed.
+  </para>
+   
+  <section>
+    <title>Current Internet solutions issues</title>
+    <para>
+      Internet PUSH solutions are based on a public accesible server which
+      handles all the notification delivery.
+    </para>
+    <para>
+      These solutions were designed without considering the mobile networks
+      way of working and forces the handset to maintain an open socket with
+      the server in order to avoid misnotifications.
+    </para>
+    <para>
+      This way of working increases the signalling and the handsets battery
+      consume.
+      For more information about this, please refer to the
+      "<xref linkend="network_issues" endterm="network_issues_title" />" chapter
+    </para>
+  </section>
+
+  <section>
+    <title>Service Description</title>
+    <para>
+      The WakeUp platform is aimed to wakeup mobile devices so PUSH servers
+      can avoid opening sockets all the time.
+    </para>
+    <para>
+      The main objective of this service is to deliver wakeup packeges based
+      on some user information given by the PUSH platform. It's designed to
+      work in cellular networks environments.
+    </para>
+  </section>
+</chapter>

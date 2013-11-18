@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="protocol"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Protocol</title>
+  <para>
+    The protocol is designed to be as simple as possible (KISS philosofy).
+  </para>
+  <section>
+    <title>Network identification</title>
+    <para>
+      First of all, mobile device SHALL inform their PUSH platforms in wich
+      mobile network are they connected. To do this, two alternatives can be
+      used:
+      <itemizedlist>
+        <listitem>
+          MCC - MNC (Mobile Country/Network Codes)
+          <para>
+            This pair identifies each mobile network in a unique way.
+          </para>
+          <para>
+            This pair identifies each mobile network in a unique way.
+          </para>
+          <para>
+            The ITU-T Recommendation E.212 defines mobile country codes as well as
+            mobile network codes.
+          </para>
+          <para>
+            <link xlink:href="http://dvcs.w3.org/hg/push/raw-file/default/index.html">
+              Complete list of all MCC-MNC pairs
+            </link>
+          </para>
+          <para>
+            This scheme is valid if the mobile network has only one segment
+            assigned to the MCC-MCN pair.
+          </para>
+        </listitem>
+        <listitem>
+          Network ID (DNS Based)
+          <para>
+            Since some mobile operators have multiple network segments under
+            the same MCC/MNC pair (because the high number of subscribers),
+            an alternate identification method had been designed.
+          </para>
+          <para>
+            This other method identifies each mobile network by a UNIQUE HASH
+            (selected by the MNO) but any RANDOM and UNIQUE string is valid.
+            An UUID is recomended.
+          </para>
+          <para>
+            The mobile device SHALL inform his Network ID to the PUSH platform
+            instead the MCC/MNC pair.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+  <section>
+    <title>Recovering network identification</title>
+    <para>
+      MNO will publish the Network ID in the DNS infrastructure so each mobile
+      only need to resolve a simple DNS query to recover the Mobile Network ID
+    </para>
+    <para>
+      [TO-DO] DNS ENTRY FORMAT
+    </para>
+  </section>
+  <section>
+    <title>Mobile device -> PUSH platform</title>
+    <para>
+      The mobile device SHALL inform his own PUSH platform each time some
+      network data is changed. (network change, IP change, ...).
+    </para>
+    <para>
+      The data sent to the PUSH platform SHALL contain:
+      <itemizedlist>
+        <listitem>Mobile IP addres</listitem>
+        <listitem>
+          TCP or UDP port in which the mobile agent is listening
+        </listitem>
+        <listitem>MCC-MNC or Network ID</listitem>
+      </itemizedlist>
+    </para>
+  </section>
+
+</chapter>
