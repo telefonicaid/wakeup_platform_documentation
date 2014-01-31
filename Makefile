@@ -2,15 +2,24 @@ SUBDIRS = books
  
 .PHONY: all subdirs $(SUBDIRS) clean gh_pages
 
-all: clean subdirs
+all: clean version.info subdirs
  
 subdirs: $(SUBDIRS)
  
 $(SUBDIRS):
 	$(MAKE) -C $@
 
+version.info:
+	@echo "Getting version information from GIT ..."
+	@git describe --all --always > version.info
+	@echo " - Version = " `cat version.info`
+	@date > date.info
+	@echo " - Date = " `cat date.info`
+
 clean:
 	rm -rf output
+	rm -f version.info
+	rm -f date.info
 
 gh-pages:
 	git checkout gh-pages

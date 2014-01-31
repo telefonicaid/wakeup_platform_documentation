@@ -7,6 +7,12 @@
   <info>
     <title>WakeUp platform</title>
     <subtitle>Architecture</subtitle>
+    <releaseinfo>
+      GIT version
+      <xi:include href="../version.info" parse="text" />
+      # Compiled on
+      <xi:include href="../date.info" parse="text" />
+    </releaseinfo>
     <authorgroup>
       <author>
         <personname>
