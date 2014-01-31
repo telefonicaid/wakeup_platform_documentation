@@ -173,21 +173,32 @@
       </para>
       <para>
         Local host with issues:
-        <![CDATA[
-        "networkLocal": "{\"host\":\"http://127.0.0.1:9000\",\"range\":\"10.0.0.0/8\",\"network\":\"214-07\",\"offline\":true}"
-        ]]>
+        <programlisting>"networkLocal": {
+  "host": "http://127.0.0.1:9000",
+  "range": "10.0.0.0/8",
+  "network": "214-07",
+  "offline": true
+}
+        </programlisting>
       </para>
       <para>
         Local wakeup without any issue:
-        <![CDATA[
-        "networkBTest":"{\"host\":\"http://127.0.0.1:9000\",\"range\":\"10.95.0.0/16\",\"network\":\"002-01\",\"offline\":false}"
-        ]]>
+        <programlisting>"networkBTest": {
+  "host": "http://127.0.0.1:9000",
+  "range": "10.95.0.0/16",
+  "network": "002-01",
+  "offline": false
+}
+        </programlisting>
       </para>
       <para>
         Local wakeup without any issue (or unknown satus):
-        <![CDATA[
-        "networkCTest": "{ \"host\": \"http://127.0.0.1:9000\", \"range\": \"10.0.0.0/8\", \"network\": \"214-07\" }"
-        ]]>
+        <programlisting>"networkCTest": {
+ "host": "http://127.0.0.1:9000",
+ "range": "10.0.0.0/8",
+ "network": "214-07"
+}
+        </programlisting>
       </para>
     </section>
     <section>
@@ -240,15 +251,22 @@
       </para>
       <para>
         Without default network:
-        <![CDATA[
-        "214-07": "{ \"country\": \"Spain\", \"operator\": \"Telef\xf3nica M\xf3viles Espa\xf1a, SAU\", \"mccmnc\": \"214-07\" }"
-        ]]>
+        <programlisting>"214-07": {
+  "country": "Spain",
+  "operator": "Telef\xf3nica M\xf3viles Espa\xf1a, SAU",
+  "mccmnc": "214-07"
+}
+        </programlisting>
       </para>
       <para>
         With default network:
-        <![CDATA[
-        "214-07": "{ \"country\": \"Spain\", \"operator\": \"Telef\xf3nica M\xf3viles Espa\xf1a, SAU\", \"mccmnc\": \"214-07\", \"defaultNetwork\": \"networkTest\" }"
-        ]]>
+        <programlisting>"214-07": {
+  "country": "Spain",
+  "operator": "Telef\xf3nica M\xf3viles Espa\xf1a, SAU",
+  "mccmnc": "214-07",
+  "defaultNetwork": "networkTest"
+}
+        </programlisting>
       </para>
     </section>
     <section>

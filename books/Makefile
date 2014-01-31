@@ -13,12 +13,21 @@ RES = resources/seqdiags
 
 .PHONY: all xhtml html_chunked pdf
 
-all: clean xhtml html_chunked pdf
+all: clean version.info xhtml html_chunked pdf
 
 $(SUBDIRS):
 	make -C $@
 
+version.info:
+	@echo "Getting version information from GIT ..."
+	@git describe --all --always > ../version.info
+	@echo " - Version = " `cat version.info`
+	@date > ../date.info
+	@echo " - Date = " `cat date.info`
+
 clean:
+	rm -f ../version.info
+	rm -f ../date.info
 	rm -rf $(OUTPUT)/xhtml5
 	rm -rf $(OUTPUT)/xhtml5_chunked
 	rm -rf $(OUTPUT)/xhtml
