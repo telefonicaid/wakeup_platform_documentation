@@ -100,6 +100,165 @@
 
   <section>
     <title>Database structure</title>
+    <para>
+      The WakeUp database is splitted in two collections:
+    </para>
+    <para>
+      The mobile_networks.js library is used to talk with the database store.
+    </para>
+    <section>
+      <title xml:id="net_collection">Networks collection</title>
+      <para>
+        This collection is the most important one since this hosts each local
+        server information (IP address, IP range of his managed network, current
+        status, ...)
+      </para>
+      <para>
+        This collection will be queried allways, if the client give us the
+        MCC-MNC pair, we will query the <xref linkend="sourcecode" endterm="op_collection" /> to get the default network. After that, we will query
+        this collection to find that network.
+      </para>
+      <para>
+        If networkId is provided in the query, resolution will be faster since
+        only one query to this collection is needed.
+      </para>
+      <para>
+        Each register is a JSON formatted string with the following attributes:
+        <itemizedlist>
+          <listitem>
+            host:
+            <para>
+              URL to send HTTP queries to local nodes.
+            </para>
+            <para>
+              Shall follow the standard URI scheme: http(s)://host:port
+            </para>
+          </listitem>
+          <listitem>
+            range:
+            <para>
+              IP range or ranges accepted into this network.
+            </para>
+            <para>
+              Shall follow the standard CIDR scheme: a.b.c.d/n
+            </para>
+            <para>
+              An array of ranges is also allowed: [ "a.b.c.d/n", "a.b.c.d/n" ]
+            </para>
+          </listitem>
+          <listitem>
+            nework: <para>MCC-MNC of this network</para>
+            <para>
+              This MCC-MNC can be shared by multiple networks.
+            </para>
+          </listitem>
+          <listitem>
+            offline:
+            <para>
+              Used by the local server checker to inform about a fail in the
+              local nodes
+            </para>
+            <para>
+              If this attribute is not available, it's considered as if the
+              local server is working normally.
+            </para>
+            <para>
+              Valid values are allways boolean (true or false)
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        Some examples:
+      </para>
+      <para>
+        Local host with issues:
+        <![CDATA[
+        "networkLocal": "{\"host\":\"http://127.0.0.1:9000\",\"range\":\"10.0.0.0/8\",\"network\":\"214-07\",\"offline\":true}"
+        ]]>
+      </para>
+      <para>
+        Local wakeup without any issue:
+        <![CDATA[
+        "networkBTest":"{\"host\":\"http://127.0.0.1:9000\",\"range\":\"10.95.0.0/16\",\"network\":\"002-01\",\"offline\":false}"
+        ]]>
+      </para>
+      <para>
+        Local wakeup without any issue (or unknown satus):
+        <![CDATA[
+        "networkCTest": "{ \"host\": \"http://127.0.0.1:9000\", \"range\": \"10.0.0.0/8\", \"network\": \"214-07\" }"
+        ]]>
+      </para>
+    </section>
+    <section>
+      <title xml:id="op_collection">Operators collection</title>
+      <para>
+        This collection stores mobile operators MCC-MNC list and the default
+        "network" to get the local server host.
+      </para>
+      <para>
+        So if the network query is done using MCC-MNC pair, we can only get one
+        network to deliver the message, which is enough to many carriers, but
+        if the carrier manages more than one subnetwork with the same MCC-MNC
+        pair, an explicit networkId is needed. After that, a query to
+        <xref linkend="sourcecode" endterm="net_collection" /> is needed.
+      </para>
+      <para>
+        Each register is a JSON formatted string with the following attributes:
+        <itemizedlist>
+          <listitem>
+            country: <para>Operator country</para>
+          </listitem>
+          <listitem>
+            operator: <para>Operator name</para>
+          </listitem>
+          <listitem>
+            mccmnc:
+            <para>
+              MCC-MNC pair which identifies this operator. A dash is used to sepparate both numbers
+            </para>
+          </listitem>
+          <listitem>
+            defaultNetwork:
+            <para>
+              [OPTIONAL] Refers to the default network which shall be queried
+              in <xref linkend="sourcecode" endterm="net_collection" /> for this
+              MCC-MNC.
+            </para>
+            <para>
+              This is an optional attribute, only needed if the operator wants
+              to accept MCC-MNC identified networks into the query.
+            </para>
+            <para>
+              If not provided, all queries to this MCC-MNC will be ignored.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        Some examples:
+      </para>
+      <para>
+        Without default network:
+        <![CDATA[
+        "214-07": "{ \"country\": \"Spain\", \"operator\": \"Telef\xf3nica M\xf3viles Espa\xf1a, SAU\", \"mccmnc\": \"214-07\" }"
+        ]]>
+      </para>
+      <para>
+        With default network:
+        <![CDATA[
+        "214-07": "{ \"country\": \"Spain\", \"operator\": \"Telef\xf3nica M\xf3viles Espa\xf1a, SAU\", \"mccmnc\": \"214-07\", \"defaultNetwork\": \"networkTest\" }"
+        ]]>
+      </para>
+    </section>
+    <section>
+      <title>Provision scripts</title>
+      <para>
+        Inside the master project (<xref linkend="sourcecode" endterm="wu_platform_project" />), a utils folder with provisioning scripts
+        can be obtained to populate this database with all known MCC-MNC pair
+        in the world.
+      </para>
+    </section>
   </section>
 
   <section>
@@ -108,7 +267,7 @@
       The project is splitted into several GIT repositories hosted in GITHub:
     </para>
     <section>
-      <title>wakeup_platform</title>
+      <title xml:id="wu_platform_project">wakeup_platform</title>
       <para>
         Main repository (for develop teams) which have some testing utils and
         refers to all other repositories as submodules.
