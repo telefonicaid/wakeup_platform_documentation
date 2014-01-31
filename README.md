@@ -6,3 +6,5 @@ This documentation is created using DocBook 5.
 It's needed Docbook 5 tools to compile the book.
 
 Related project: https://github.com/telefonicaid/wakeup_platform
+
+Read it online: http://telefonicaid.github.io/wakeup_platform_documentation/

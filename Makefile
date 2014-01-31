@@ -21,11 +21,11 @@ clean:
 	rm -f version.info
 	rm -f date.info
 
-gh-pages:
+gh-pages: all
 	git checkout gh-pages
+	rm -rf doc
 	mv output doc
-	rm -rf books
 	git add doc
-	git commit -m "Automatic documentation generation"
-	git push origin gh-pages
+	git commit --amend -m "Automatic documentation generation"
+	git push origin gh-pages -f
 	git checkout master
