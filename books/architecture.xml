@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="architecture"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title>Notification Server Architecture</title>
+  <para>
+    This chapter explains how is the server designed to be able to process
+    millions of messages per second.
+  </para>
+
+  <section>
+    <title>Technologies used</title>
+    <para>
+      The server infrastructure had been build using high performance languages
+      and also high performance database and message queuing systems.
+    </para>
+    <section>
+        <title>MongoDB</title>
+        <para></para>
+    </section>
+    <section>
+        <title>REDIS</title>
+        <para></para>
+    </section>
+    <section>
+        <title>Node.JS</title>
+        <para></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Types of servers</title>
+    <para>
+      In order to be able to scale horizontally and vertically with no limits
+      all the server platform infrastructure had been splitted in several boxes
+      one of them dedicated to a particular task and also independent of the
+      rest so it can be scalled independently of the rest ones.
+    </para>
+    <para>
+        The names of each box follows this scheme:
+        WU-&lt;type_of_client&gt;
+    </para>
+    <para>
+      <imagedata fileref="resources/wu_servers.png" align="center" width="5in" />
+    </para>
+    <section>
+        <title>WU-Global-Server</title>
+        <para>
+          The WU-Global-Server server is the responsible to intermediate
+          between the central Notification Server infrastructure (3rd party)
+          and each WU-Local-Server deployed in each OB.
+        </para>
+        <para>
+          This server exposes a public API through Internet which only trusted
+          partners can consume (see
+          <xref linkend="security" endterm="security_title" /> chapter).
+        </para>
+    </section>
+    <section>
+        <title>WU-Local-Server</title>
+        <para>
+          The WU-Local-Server server is a proxy between the global WU servers
+          and the client equipment (device). This service will receive petitions
+          through a standard HTTP port and will send UDP datagrams or TCP
+          packets (for pinging purposes) inside the OB private network to the
+          private IP of the client equipment. This server must be placed inside
+          the OB private network or in a zone that must see that private IPs.
+        </para>
+        <para>
+          This server is responsible to ping to the correct client inside each
+          OB (using UDP datagrams). It must be placed inside the OB or in a
+          zone that can see the devices inside that private network.
+        </para>
+        <para>
+          This server will receive the ping orders through a standard HTTP
+          port which will be connected to InterNodo network to receive the
+          data from the VDC inside operator network.
+        </para>
+        <para>
+          The following scheme shows who the notification is sent with a wakeup
+          server:
+        </para>
+        <para>
+          <imagedata fileref="resources/seqdiags/full_interaction_wakeup.png" align="center" width="5in" />
+        </para>
+    </section>
+    <section>
+        <title>NO-SQL Database (MongoDB or REDIS)</title>
+        <para>
+          A MongoDB or REDIS cluster is needed to register information about all
+          local servers status.
+        </para>          
+    </section>
+  </section>
+</chapter>

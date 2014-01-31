@@ -10,7 +10,7 @@
   </para>
 
   <section>
-    <title>Network identification</title>
+    <title xml:id="networkId_title">Network identification</title>
     <para>
       First of all, mobile device SHALL inform their PUSH platforms in wich
       mobile network are they connected. To do this, two alternatives can be
@@ -58,6 +58,7 @@
       </itemizedlist>
     </para>
   </section>
+
   <section>
     <title>Recovering network identification</title>
     <para>
@@ -68,6 +69,7 @@
       [TO-DO] DNS ENTRY FORMAT
     </para>
   </section>
+
   <section>
     <title>APIs</title>
     <section>
@@ -83,7 +85,7 @@
           <listitem>
             TCP or UDP port in which the mobile agent is listening
           </listitem>
-          <listitem>MCC-MNC or Network ID</listitem>
+          <listitem>MCC-MNC or Network ID ("<xref linkend="protocol" endterm="networkId_title" />")</listitem>
         </itemizedlist>
       </para>
     </section>
@@ -91,13 +93,40 @@
     <section>
       <title>API: PUSH platform -> WakeUp platform (Global node)</title>
       <para>
+        This service exposes a REST API in which some resources are shared with
+        other platform services (please refer to "<xref linkend="protocol" endterm="common_rest_res_title" />")
       </para>
-    </section>
+      <section>
+        <title>REST API: wakeup (global) resource</title>
+        <para>
+        </para>
+      </section>
+   </section>
 
     <section>
       <title>Internal API: Local nodes</title>
       <para>
       </para>
+      <section>
+        <title>REST API: wakeup (local) resource</title>
+        <para>
+        </para>
+      </section>
+    </section>
+
+    <section>
+      <title xml:id="common_rest_res_title">Common REST API resources</title>
+      <section>
+        <title>REST API: about resource</title>
+        <para>
+        </para>
+      </section>
+
+      <section>
+        <title>REST API: status resource</title>
+        <para>
+        </para>
+      </section>
     </section>
   </section>
 

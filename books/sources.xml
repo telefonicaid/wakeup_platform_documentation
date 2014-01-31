@@ -22,27 +22,77 @@
   <section>
     <title>External dependencies</title>
     <para>
-      This project depends in other projects like:
+      All node dependecies will be downloaded automatically using NPM
+    </para>
+    <para>
+      The global node depends in these other projects and versions:
       <itemizedlist>
+        <listitem>
+          Node.JS
+          <para>Used as the basic framework</para>
+        </listitem>
         <listitem>
           REDIS
           <para>Used as a very fast data storage</para>
         </listitem>
         <listitem>
           Node.JS log4js Version 0.6.x
-          <para>Used as </para>
+          <para>Used as logging library</para>
         </listitem>
         <listitem>
           Node.JS redis Version 0.9.x
-          <para>Used as </para>
+          <para>Needed to communicate with the REDIS database</para>
         </listitem>
         <listitem>
           Node.JS request Version 2.27.x
-          <para>Used as </para>
+          <para>
+            Needed to create new HTTP requests to the different servers
+          </para>
         </listitem>
         <listitem>
           Node.JS range_check Version 0.0.x
-          <para>Used as </para>
+          <para>
+            Used to check if the received IPs are in the same IP range managed
+            by the different local servers
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      The local node depends in these other projects and versions:
+      <itemizedlist>
+        <listitem>
+          Node.JS
+          <para>Used as the basic framework</para>
+        </listitem>
+        <listitem>
+          Node.JS log4js Version 0.6.x
+          <para>Used as logging library</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      For development only these libraries and needed too:
+      <itemizedlist>
+        <listitem>
+          Node.JS
+          <para>Used as the basic framework</para>
+        </listitem>
+        <listitem>
+          REDIS
+          <para>Used as a very fast data storage</para>
+        </listitem>
+        <listitem>
+          Node.JS vows Version 0.7.x
+          <para>Used as unit test framework</para>
+        </listitem>
+        <listitem>
+          Node.JS complexity-report Version 1.0.x
+          <para>Used to generate cyclomatic complexity reports</para>
+        </listitem>
+        <listitem>
+          Node.JS async Version 0.2.x
+          <para>Needed to have a more clear code</para>
         </listitem>
       </itemizedlist>
     </para>
@@ -55,25 +105,68 @@
   <section>
     <title>Repositories and submodules</title>
     <para>
-      The project is splitted into several GIT repositories:
+      The project is splitted into several GIT repositories hosted in GITHub:
     </para>
     <section>
       <title>wakeup_platform</title>
+      <para>
+        Main repository (for develop teams) which have some testing utils and
+        refers to all other repositories as submodules.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform"></link>
+      </para>
     </section>
     <section>
       <title>wakeup_platform_documentation</title>
+      <para>
+        This repository hosts the project documentation (this document).
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_documentation"></link>
+      </para>
     </section>
     <section>
       <title>wakeup_platform_global</title>
+      <para>
+        This repository hosts the Global servers (the one that exposes the
+        public API and the local node status checker)
+      </para>
+      <para>
+        This repository also dependes (as submodule) on the common one commented
+        bellow.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_global"></link>
+      </para>
     </section>
     <section>
       <title>wakeup_platform_local</title>
       <para>
-        [TO-DO] Comentar q no tiene dependencias y por qué
+        This repository hosts the Local servers (the one that can wakeup
+        devices and shall be deployed in each local OB)
+      </para>
+      <para>
+        Since this server will be deployed in a critical operator network, we
+        decided to avoid external dependencies so we can manage all the life
+        cycle of the server and improve security.
+      </para>
+      <para>
+        This repository also dependes (as submodule) on the common one commented
+        bellow.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_local"></link>
       </para>
     </section>
     <section>
       <title>wakeup_platform_common</title>
+      <para>
+        This repository hosts the common libraries used by global and local nodes.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_common"></link>
+      </para>
     </section>
   </section>
 </chapter>

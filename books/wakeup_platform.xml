@@ -49,6 +49,8 @@
   <xi:include href="installation.xml" />
   <xi:include href="operations.xml" />
   <xi:include href="sources.xml" />
+  <xi:include href="architecture.xml" />
+  <xi:include href="security.xml" />
   <chapter>
     <title>License</title>
     <programlisting>
