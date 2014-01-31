@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="operations"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Operations and administration</title>
+  <para>
+    This chapter explains how to proceed in case of troubles
+  </para>
+
+  <section>
+    <title>Local nodes</title>
+    <para>
+      [TO-DO] Explicar como habilitar/deshabilitar nodos para sacarlos del balanceador
+    </para>
+  </section>
+
+  <section>
+    <title>Global node</title>
+
+  </section>
+
+  <section>
+    <title>Data Storage</title>
+
+  </section>
+</chapter>

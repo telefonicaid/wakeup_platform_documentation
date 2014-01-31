@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="sourcecode"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Source Code</title>
+  <para>
+    This chapter explains how the source code and GIT repositories are organized
+  </para>
+  <para>
+    If you want to collaborate you should read this chapter.
+  </para>
+
+  <section>
+    <title>How it's implemented</title>
+    <para>
+      This project is implemented using JavaScript on the server (Node.JS)
+    </para>
+  </section>
+
+  <section>
+    <title>External dependencies</title>
+    <para>
+      This project depends in other projects like:
+      <itemizedlist>
+        <listitem>
+          REDIS
+          <para>Used as a very fast data storage</para>
+        </listitem>
+        <listitem>
+          Node.JS log4js Version 0.6.x
+          <para>Used as </para>
+        </listitem>
+        <listitem>
+          Node.JS redis Version 0.9.x
+          <para>Used as </para>
+        </listitem>
+        <listitem>
+          Node.JS request Version 2.27.x
+          <para>Used as </para>
+        </listitem>
+        <listitem>
+          Node.JS range_check Version 0.0.x
+          <para>Used as </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+
+  <section>
+    <title>Database structure</title>
+  </section>
+
+  <section>
+    <title>Repositories and submodules</title>
+    <para>
+      The project is splitted into several GIT repositories:
+    </para>
+    <section>
+      <title>wakeup_platform</title>
+    </section>
+    <section>
+      <title>wakeup_platform_documentation</title>
+    </section>
+    <section>
+      <title>wakeup_platform_global</title>
+    </section>
+    <section>
+      <title>wakeup_platform_local</title>
+      <para>
+        [TO-DO] Comentar q no tiene dependencias y por qué
+      </para>
+    </section>
+    <section>
+      <title>wakeup_platform_common</title>
+    </section>
+  </section>
+</chapter>

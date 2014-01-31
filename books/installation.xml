@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="installation"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Installation and Configuration</title>
+  <para>
+    This chapter explains the requirements, to install and configure the
+    wakeup platform correctly
+  </para>
+
+  <section>
+    <title>Local nodes</title>
+
+  </section>
+
+  <section>
+    <title>Global node</title>
+
+  </section>
+
+  <section>
+    <title>SSL Terminator</title>
+
+  </section>
+
+  <section>
+    <title>Create your own Certification Authority</title>
+
+  </section>
+
+  <section>
+    <title>Provision mobile networks data</title>
+
+  </section>
+
+</chapter>

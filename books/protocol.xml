@@ -8,6 +8,7 @@
   <para>
     The protocol is designed to be as simple as possible (KISS philosofy).
   </para>
+
   <section>
     <title>Network identification</title>
     <para>
@@ -68,21 +69,36 @@
     </para>
   </section>
   <section>
-    <title>Mobile device -> PUSH platform</title>
-    <para>
-      The mobile device SHALL inform his own PUSH platform each time some
-      network data is changed. (network change, IP change, ...).
-    </para>
-    <para>
-      The data sent to the PUSH platform SHALL contain:
-      <itemizedlist>
-        <listitem>Mobile IP addres</listitem>
-        <listitem>
-          TCP or UDP port in which the mobile agent is listening
-        </listitem>
-        <listitem>MCC-MNC or Network ID</listitem>
-      </itemizedlist>
-    </para>
+    <title>APIs</title>
+    <section>
+      <title>API: Mobile device -> PUSH platform</title>
+      <para>
+        The mobile device SHALL inform his own PUSH platform each time some
+        network data is changed. (network change, IP change, ...).
+      </para>
+      <para>
+        The data sent to the PUSH platform SHALL contain:
+        <itemizedlist>
+          <listitem>Mobile IP addres</listitem>
+          <listitem>
+            TCP or UDP port in which the mobile agent is listening
+          </listitem>
+          <listitem>MCC-MNC or Network ID</listitem>
+        </itemizedlist>
+      </para>
+    </section>
+
+    <section>
+      <title>API: PUSH platform -> WakeUp platform (Global node)</title>
+      <para>
+      </para>
+    </section>
+
+    <section>
+      <title>Internal API: Local nodes</title>
+      <para>
+      </para>
+    </section>
   </section>
 
 </chapter>

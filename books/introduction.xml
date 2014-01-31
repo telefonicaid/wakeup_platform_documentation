@@ -47,5 +47,30 @@
       on some user information given by the PUSH platform. It's designed to
       work in cellular networks environments.
     </para>
+    <para>
+      This server will provide a public API for trusted partners which allow
+      them to wakeup any mobile device inside mobile operator networks.
+    </para>
+  </section>
+
+  <section>
+    <title>What is supposed third party PUSH platforms will use this</title>
+    <para>
+      Third party PUSH platform providers like Mozilla FirefoxOS PUSH server
+      should sign an agreement with mobile operators to have access to the
+      wake up public APIs
+    </para>
+    <para>
+      Third party clients will benefict of the battery safe of their devices
+      and reduce the network compsumption on any country.
+    </para>
+    <para>
+      After sign the agreement, the Operator will deliver a signed certificate
+      which identifies in a unique way the wakeup platform users.
+    </para>
+    <para>
+      This certificate SHALL be used to Authenticate and Authorizate access to
+      the WakeUp platform.
+    </para>
   </section>
 </chapter>
