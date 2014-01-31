@@ -16,10 +16,6 @@
       and also high performance database and message queuing systems.
     </para>
     <section>
-        <title>MongoDB</title>
-        <para></para>
-    </section>
-    <section>
         <title>REDIS</title>
         <para></para>
     </section>
@@ -86,9 +82,9 @@
         </para>
     </section>
     <section>
-        <title>NO-SQL Database (MongoDB or REDIS)</title>
+        <title>NO-SQL Database (REDIS)</title>
         <para>
-          A MongoDB or REDIS cluster is needed to register information about all
+          A REDIS cluster is needed to register information about all
           local servers status.
         </para>          
     </section>
