@@ -1,0 +1,86 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Database structure</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="ch06.html" title="Chapter 6. Source Code"><link rel="prev" href="ch06s02.html" title="External dependencies"><link rel="next" href="ch06s04.html" title="Repositories and submodules"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Database structure</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s02.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Source Code</th><td width="20%" align="right"> <a accesskey="n" href="ch06s04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49873632"></a>Database structure</h2></div></div></div><p>
+      The mobile_networks.js library is used to talk with the database store.
+    </p><p>
+      The database store is a simple JSON file called "networks.json"
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49932192"></a>Networks collection</h3></div></div></div><p>
+        This collection is the most important one since this hosts each local
+        server information (IP address, IP range of his managed network, current
+        status, ...)
+      </p><p>
+        This collection will be queried allways, if the client give us the
+        MCC-MNC pair, the server will generate a generic network id with the
+        MCC MNC pair splitted by a dash. After that, the service will query
+        this collection to find that network.
+      </p><p>
+        If networkId is provided in the query, resolution will be faster since
+        only one query to this collection is needed.
+      </p><p>
+        Each register is a JSON formatted string with the following attributes:
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+            host:
+            <p>
+              URL to send HTTP queries to local nodes.
+            </p><p>
+              Shall follow the standard URI scheme: http(s)://host:port
+            </p></li><li class="listitem">
+            range:
+            <p>
+              IP range or ranges accepted into this network.
+            </p><p>
+              Shall follow the standard CIDR scheme: a.b.c.d/n
+            </p><p>
+              An array of ranges is also allowed: [ "a.b.c.d/n", "a.b.c.d/n" ]
+            </p></li><li class="listitem">
+            nework: <p>MCC-MNC of this network</p><p>
+              This MCC-MNC can be shared by multiple networks.
+            </p></li><li class="listitem">
+            protocols:
+            <p>
+              This is an optional parameter.
+            </p><p>
+              It's an array with all supported wakeup protocols. By default
+              tcp and udp should be declared.
+            </p><p>
+              If this data is declared, will be sent to the clients on the
+              netinfo/v1 query and will be used to validate the proto parameter
+              of wakeup/v1 API.
+            </p></li><li class="listitem">
+            offline:
+            <p>
+              Used by the local server checker to inform about a fail in the
+              local nodes
+            </p><p>
+              If this attribute is not available, it's considered as if the
+              local server is working normally.
+            </p><p>
+              Valid values are allways boolean (true or false)
+            </p></li></ul></div><p>
+      </p><p>
+        Some examples:
+      </p><p>
+        Local host with issues:
+        </p><pre class="programlisting">"networkLocal": {
+  "host": "http://127.0.0.1:9000",
+  "range": "10.0.0.0/8",
+  "network": "214-07",
+  "offline": true
+}
+        </pre><p>
+      </p><p>
+        Local wakeup without any issue:
+        </p><pre class="programlisting">"networkBTest": {
+  "host": "http://127.0.0.1:9000",
+  "range": "10.95.0.0/16",
+  "network": "002-01",
+  "offline": false
+}
+        </pre><p>
+      </p><p>
+        Local wakeup without any issue (or unknown satus):
+        </p><pre class="programlisting">"networkCTest": {
+ "host": "http://127.0.0.1:9000",
+ "range": "10.0.0.0/8",
+ "network": "214-07"
+}
+        </pre><p>
+      </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch06s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">External dependencies </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Repositories and submodules</td></tr></table></div></body></html>

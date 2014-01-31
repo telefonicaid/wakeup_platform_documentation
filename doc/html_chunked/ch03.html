@@ -1,0 +1,35 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Chapter 3. Protocol</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="index.html" title="WakeUp platform"><link rel="prev" href="ch02s06.html" title="Mobile Network. Battery consumption"><link rel="next" href="ch03s02.html" title="Recovering network identification"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Chapter 3. Protocol</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s06.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch03s02.html">Next</a></td></tr></table><hr></div><div lang="en" class="chapter"><div class="titlepage"><div><div><h1 class="title"><a name="protocol"></a>Chapter 3. Protocol</h1></div></div></div><div class="toc"><p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="ch03.html#idp49762608">Network identification</a></span></dt><dt><span class="section"><a href="ch03s02.html">Recovering network identification</a></span></dt><dt><span class="section"><a href="ch03s03.html">APIs</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s03.html#idp49775104">API: Mobile device -&gt; Push platform</a></span></dt><dt><span class="section"><a href="ch03s03.html#idp49720896">API: Push platform -&gt; WakeUp platform (Global node)</a></span></dt><dt><span class="section"><a href="ch03s03.html#idp49903792">Internal API: Local nodes</a></span></dt><dt><span class="section"><a href="ch03s03.html#idp49918544">Common REST API resources</a></span></dt></dl></dd></dl></div><p>
+    The protocol is designed to be as simple as possible (KISS philosophy).
+  </p><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49762608"></a>Network identification</h2></div></div></div><p>
+      First of all, the mobile wanting to use this API device MUST inform their Push platforms in which
+      mobile network are they connected. To do this, two alternatives can be
+      used:
+      </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+          MCC - MNC (Mobile Country/Network Codes)
+          <p>
+            This pair identifies each mobile network in a unique way.
+          </p><p>
+            The ITU-T Recommendation E.212 defines mobile country codes as well as
+            mobile network codes.
+          </p><p>
+            <a class="link" href="http://dvcs.w3.org/hg/Push/raw-file/default/index.html" target="_top">
+              Complete list of all MCC-MNC pairs
+            </a>
+          </p><p>
+            This scheme is valid if the mobile network has only one segment
+            assigned to the MCC-MCN pair.
+          </p></li><li class="listitem">
+          Network ID (DNS Based)
+          <p>
+            Since some mobile operators have multiple network segments under
+            the same MCC/MNC pair (because the high number of subscribers),
+            an alternate identification method had been designed.
+          </p><p>
+            This other method identifies each mobile network by a UNIQUE HASH
+            (selected by the MNO) but any RANDOM and UNIQUE string is valid.
+            An UUID is recommended.
+          </p><p>
+            The mobile device SHALL inform his Network ID to the Push platform
+            and also the MCC/MNC pair.
+          </p></li></ul></div><p>
+    </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s06.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch03s02.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Mobile Network. Battery consumption </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Recovering network identification</td></tr></table></div></body></html>

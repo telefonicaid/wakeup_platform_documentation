@@ -1,0 +1,221 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>APIs</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="ch03.html" title="Chapter 3. Protocol"><link rel="prev" href="ch03s02.html" title="Recovering network identification"><link rel="next" href="ch04.html" title="Chapter 4. Installation and Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">APIs</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Protocol</th><td width="20%" align="right"> <a accesskey="n" href="ch04.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49774368"></a>APIs</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49775104"></a>API: Mobile device -&gt; Push platform</h3></div></div></div><p>
+        The mobile device SHALL inform his own Push platform each time some
+        network data is changed. (network change, IP change, ...).
+      </p><p>
+        The data sent to the Push platform SHALL contain:
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">Mobile IP address</li><li class="listitem">
+            TCP or UDP port in which the mobile agent is listening
+          </li><li class="listitem">MCC-MNC or Network ID ("<a class="xref" href="ch03.html" title="Chapter 3. Protocol">Network identification</a>")</li></ul></div><p>
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49720896"></a>API: Push platform -&gt; WakeUp platform (Global node)</h3></div></div></div><p>
+        This service exposes a REST API in which some resources are shared with
+        other platform services (please refer to "<a class="xref" href="ch03.html" title="Chapter 3. Protocol">Common REST API resources</a>")
+      </p><p>
+        These servers listens in HTTP and not in HTTPS since SSL SHALL be
+        terminated by software (nginx, for example) or hardware equipments
+      </p><p>
+        This means, that all HTTP queries to the WakeUp nodes shall contain
+        these extra headers to inform about the client certificate. If these headers are not provided, WakeUp servers will answer with an error
+        (Status code 400).
+        </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+            X-Real-IP:
+            <p>
+              This header will contain the IP address of the client.
+            </p><p>
+              This will be used in log traces.
+            </p></li><li class="listitem">
+            X-Forwarded-For:
+            <p>
+              This headers contains the different proxies IP addresses used
+              between the client and the server.
+            </p></li><li class="listitem">
+            X-Client-Cert-DN:
+            <p>
+              This will contain the client certificate DN string used to
+              identify the client in all log traces.
+            </p><p>
+              This will be used in log traces.
+            </p></li><li class="listitem">
+            X-Client-Cert-Verified:
+            <p>
+              If SSL client verification is valid and SSL terminator rely on
+              this. This header SHALL contain 'SUCCESS'.
+            </p><p>
+              Any other value will be considered an invalid certificate and
+              the connection will be rejected.
+            </p></li></ul></div><p>
+      </p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49730448"></a>REST API: wakeup (global) resource</h4></div></div></div><p>
+          Resource path is: wakeup/v1
+        </p><p>
+          This resource is used to wake up a device.
+          Only POST method is allowed.
+        </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49732160"></a>POST</h5></div></div></div><p>
+            The HTTP payload is a parametrized string in "querystring" format:
+            </p><pre class="programlisting">
+              param1=value1&amp;param2=value2&amp;param3=value3
+            </pre><p>
+          </p><p>
+            </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+                ip: <p>IP Address of the client device</p><p>
+                  Shall be a valid IPv4 address
+                </p></li><li class="listitem">
+                port:
+                <p>
+                  TCP or UDP port in which the client is waiting wakeup for
+                  notifications
+                </p><p>
+                  Shall be a number between 1 and 65535
+                </p></li><li class="listitem">
+                netid:
+                <p>
+                  Network ID
+                  ("<a class="xref" href="ch03.html" title="Chapter 3. Protocol">Network identification</a>")
+                </p><p>
+                  Shall be a string
+                </p></li><li class="listitem">
+                mcc: <p>Mobile Country Code (if netid is not provided)</p><p>
+                  Shall be a number
+                </p></li><li class="listitem">
+                mnc: <p>Mobile Network Code (if netid is not provided)</p><p>
+                  Shall be a number
+                </p></li><li class="listitem">
+                proto: <p>WakeUp protocol.</p><p>
+                  This is optional. By default UDP
+                </p><p>
+                  Shall be one of these values:
+                  </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">tcp</li><li class="listitem">udp</li></ul></div><p>
+                </p></li></ul></div><p>
+          </p><p>
+            Multiple checks will be done before the client receives the final
+            response.
+          </p><p>
+            These errors will inform about different issues:
+          </p><p>
+            </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+                Mandatory parameters:
+                <p>
+                  If the mandatory parameters are not present a status code 400
+                  will be responded.
+                </p><p>
+                  Mandatory parameters are: ip and port numbers and netid or
+                  MCC/MNC pair.
+                </p></li><li class="listitem">
+                Mobile device identification (IP and Port)
+                <p>
+                  Also the IP parameter will be validated as a valid IPv4
+                  address. The Port shall be between 1 and 65535.
+                </p></li><li class="listitem">
+                Mobile network identification
+                <p>
+                  If the MCC/MNC pair or NetID suplied is not managed by the
+                  server (local node not found) a status code 404 (not found)
+                  is responded.
+                </p></li><li class="listitem">
+                Device in the network
+                <p>
+                  If the device IP is not inside the mobile network ranges, a
+                  status code 400 will be responded (No valid device IP)
+                </p></li><li class="listitem">
+                Mobile network status
+                <p>
+                  If the mobile network local server status is offline for any
+                  cause, a status code 503 is returned and should be retried
+                  later.
+                </p></li><li class="listitem">
+                Protocol accepted
+                <p>
+                  If the network configuration informs about the optional
+                  supported protocols parameter, the protocol queried by the
+                  client (proto parameter) will be validated and if the protocol
+                  is not accepted by the local node a status code 400 will be
+                  sent to the client.
+                </p></li></ul></div><p>
+          </p><p>
+            In any other case a 200 OK status code will be responded. This
+            means that the platform will try to deliver the message to the
+            local node, anyway if any error is produced during this process
+            the client won't be informed so it should retry again if the device
+            is not waked up.
+          </p></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49898480"></a>REST API: netinfo resource</h4></div></div></div><p>
+          Resource path is: netinfo/v1
+        </p><p>
+          This method informs about all supported networks by this server and
+          the current status of each one.
+        </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49900272"></a>GET</h5></div></div></div><p>
+            Only GET method is allowed. The response contains an array with all
+            supported networks with the mcc-mnc of each one, the assigned
+            network id (netid), the IP accepted range or ranges and the current
+            status of the network (offline)
+          </p><p>
+            A list of supported protocols can be (it's optional) listed into the
+            protocols array.
+          </p><p>
+            </p><pre class="programlisting">
+               {"nets": [{"netid":"214-07","mccmnc":"214-07","range":"10.0.0.0/8","protocols": ["tcp","udp"],"offline":true}]}
+            </pre><p>
+          </p></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49903792"></a>Internal API: Local nodes</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49904544"></a>REST API: wakeup (local) resource</h4></div></div></div><p>
+          Resource path is: wakeup
+        </p><p>
+          This resource is used to wake up a device. POST and GET are supported.
+          GET is supported for backwards compatibility but it's deprecated.
+        </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49906368"></a>POST</h5></div></div></div><p>
+            The HTTP payload is a parametrized string in "querystring" format:
+           </p><pre class="programlisting">
+              param1=value1&amp;param2=value2&amp;param3=value3
+            </pre><p>
+           </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49908288"></a>GET</h5></div></div></div><p>
+            The URL contains a parametrized string in "querystring" format:
+           </p><pre class="programlisting">
+              param1=value1&amp;param2=value2&amp;param3=value3
+            </pre><p>
+           </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49910208"></a>Common querystring for GET and POST methods</h5></div></div></div><p>
+            </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+                ip: <p>IP Address of the client device</p><p>
+                  Shall be a valid IPv4 address
+                </p></li><li class="listitem">
+                port:
+                <p>
+                  TCP or UDP port in which the client is waiting wakeup for
+                  notifications
+                </p><p>
+                  Shall be a number between 1 and 65535
+                </p></li><li class="listitem">
+                proto: <p>WakeUp protocol.</p><p>
+                  This is optional. By default UDP
+                </p><p>
+                  Shall be one of these values:
+                  </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem">tcp</li><li class="listitem">udp</li></ul></div><p>
+                </p></li></ul></div><p>
+          </p></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49918544"></a>Common REST API resources</h3></div></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49919664"></a>REST API: about resource</h4></div></div></div><p>
+          Resource path is: about
+        </p><p>
+          Also, this is the default path, if no other path is defined.
+        </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49921408"></a>GET</h5></div></div></div><p>
+            No parameters needed. Returns a HTML information page
+          </p></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a name="idp49922976"></a>REST API: status resource</h4></div></div></div><p>
+          Resource path is: status
+        </p><p>
+          This method is used to check server availability. If, for any reason,
+          it's needed to avoid traffic through one server, this method can
+          set the service as offline.
+        </p><p>
+          Can be used by load balancers and by the global checker service
+        </p><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49925728"></a>GET</h5></div></div></div><p>
+            No parameters needed. Returns a 200 OK or 503 Service Unavailable.
+          </p></div><div class="section"><div class="titlepage"><div><div><h5 class="title"><a name="idp49927152"></a>POST</h5></div></div></div><p>
+            Changes the status of the service.
+          </p><p>
+            The HTTP payload is a parametrized string in "querystring" format:
+            </p><pre class="programlisting">
+              param1=value1&amp;param2=value2&amp;param3=value3
+            </pre><p>
+            with only one value:
+          </p><p>
+            enable = [true | false]
+          </p><p>
+            To enable or disable, you can use this simple curl calls:
+            </p><pre class="programlisting">
+curl -d 'enable=true' -k --key test_ca/TEST_CERTIFICATES/client.key --cert test_ca/TEST_CERTIFICATES/client.crt https://localhost/local/status
+
+curl -d 'enable=false' -k --key test_ca/TEST_CERTIFICATES/client.key --cert test_ca/TEST_CERTIFICATES/client.crt https://localhost/local/status
+            </pre><p>
+          </p></div></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch03.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Recovering network identification </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 4. Installation and Configuration</td></tr></table></div></body></html>

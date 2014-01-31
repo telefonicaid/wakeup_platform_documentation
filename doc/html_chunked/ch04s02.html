@@ -1,0 +1,53 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Global node</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="ch04.html" title="Chapter 4. Installation and Configuration"><link rel="prev" href="ch04.html" title="Chapter 4. Installation and Configuration"><link rel="next" href="ch04s03.html" title="SSL Terminator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Global node</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">Prev</a> </td><th width="60%" align="center">Chapter 4. Installation and Configuration</th><td width="20%" align="right"> <a accesskey="n" href="ch04s03.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49747696"></a>Global node</h2></div></div></div><p>
+      This server should be installed in an Internet accesible network but with
+      a SSL Terminator as a frontend.
+    </p><p>
+      Global node will receive HTTP(s) queries to three resources (about,
+      status and wakeup/v1), so any other HTTP query can be securelly filtered.
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49802384"></a>Mobile networks configuration file</h3></div></div></div><p>
+        Instead a common database, a simple configuration file is used to manage
+        the different local networks.
+      </p><p>
+        The networks.json configuration field shall be a well formed JSON file.
+      </p><p>
+        The contents shall follow this scheme:
+      </p><p>
+        </p><pre class="programlisting">
+          {
+            "&lt;netidname&gt;": {
+              "host": "&lt;local host URL&gt;",
+              "range": "&lt;IP Range or ranges allowed in this network&gt;",
+              "network": "&lt;MCC-MNC pair&gt;",
+              "offline": &lt;true|false&gt;
+            },
+            ...
+          }
+        </pre><p>
+      </p><p>
+        Example:
+        </p><pre class="programlisting">
+          {
+            "214-07": {
+              "host": "http://localhost:9000",
+              "range": "10.0.0.0/8",
+              "network": "214-07",
+              "offline": true
+            }
+          }
+        </pre><p>
+      </p><p>
+        Due to some limitations in the reference platform (Firefox OS), netid will have
+        the form of an IP address (four numbers between 0 and 255 separated by dots).
+      </p><p>
+        Also, if the network where this wakeup platform is installed have only one
+        network, or don't offer netid, or wants to be backward compatible with old
+        versions of the Push platform, it will provide a DEFAULT network for devices
+        that only send a MCC-MNC pair.
+      </p><p>
+        The default netid will have the form "MCC-MNC.default", so if your MCC is 214
+        and your MNC 07, if you provide a network with netid "214-07.default", this
+        will be used for devices that doesn't sent us a netid.
+      </p><p>
+        See the network collection info here:
+        <a class="xref" href="ch06.html" title="Chapter 6. Source Code">Networks collection</a>
+      </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch04s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 4. Installation and Configuration </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> SSL Terminator</td></tr></table></div></body></html>

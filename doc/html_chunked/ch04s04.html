@@ -1,0 +1,52 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Create your own Certification Authority</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="ch04.html" title="Chapter 4. Installation and Configuration"><link rel="prev" href="ch04s03.html" title="SSL Terminator"><link rel="next" href="ch05.html" title="Chapter 5. Operations and administration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Create your own Certification Authority</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s03.html">Prev</a> </td><th width="60%" align="center">Chapter 4. Installation and Configuration</th><td width="20%" align="right"> <a accesskey="n" href="ch05.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49853056"></a>Create your own Certification Authority</h2></div></div></div><p>
+      Using OpenSSL you can create your own CA for testing or deploying purposes
+    </p><p>
+      Into the utils/test_ca folder of main wakeup_platform project
+      (<a class="xref" href="ch06.html" title="Chapter 6. Source Code">wakeup_platform</a>)
+      you will locate this sample script can be used as a simple reference:
+    </p><p>
+      </p><pre class="programlisting">echo "Generating a test client/server certificates for wakeup platform ..."
+
+CA_SUBJECT='/C=SP/ST=DummyState/L=DummyLocation/O=WakeUpPlatformOrg/CN=wakeupCA'
+SERVER_SUBJECT='/C=SP/ST=DummyState/L=DummyLocation/O=WakeUpPlatformOrg/CN=wakeup.server.com'
+CLIENT_SUBJECT='/C=SP/ST=DummyState/L=DummyLocation/O=WakeUpPlatformOrg/CN=client_test'
+
+DEST='TEST_CERTIFICATES'
+rm -rf $DEST
+mkdir $DEST
+cd $DEST
+
+echo "Creating CA private key ..."
+openssl genrsa -des3 -out ca.key 4096
+echo "Creating CA certificate ..."
+openssl req -new -x509 -days 365 -key ca.key -out ca.crt -subj $CA_SUBJECT
+
+echo "Creating Server private key ..."
+openssl genrsa -des3 -out server.key 1024
+echo "Creating Server CSR ..."
+openssl req -new -key server.key -out server.csr -subj $SERVER_SUBJECT
+echo "Signing Server CSR and creating certificate ..."
+openssl x509 -req -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt
+
+echo "Creating Client private key ..."
+openssl genrsa -des3 -out client.key 1024
+echo "Creating Client CSR ..."
+openssl req -new -key client.key -out client.csr -subj $CLIENT_SUBJECT
+echo "Signing Client CSR and creating certificate ..."
+openssl x509 -req -days 365 -in client.csr -CA ca.crt -CAkey ca.key -out client.crt
+
+echo "Removing server key password ..."
+mv server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+
+echo "Removing client key password ..."
+mv client.key client.key.org
+openssl rsa -in client.key.org -out client.key
+
+echo "Generating a PKCS#12 for client certificate"
+openssl pkcs12 -export -in client.crt -inkey client.key -out client.p12
+
+cd ..
+
+      </pre><p>
+    </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch04.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">SSL Terminator </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 5. Operations and administration</td></tr></table></div></body></html>

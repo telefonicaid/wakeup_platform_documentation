@@ -1,0 +1,36 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Repositories and submodules</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="ch06.html" title="Chapter 6. Source Code"><link rel="prev" href="ch06s03.html" title="Database structure"><link rel="next" href="ch07.html" title="Chapter 7. Notification Server Architecture"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Repositories and submodules</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a> </td><th width="60%" align="center">Chapter 6. Source Code</th><td width="20%" align="right"> <a accesskey="n" href="ch07.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49949248"></a>Repositories and submodules</h2></div></div></div><p>
+      The project is splitted into several GIT repositories hosted in GITHub:
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49950512"></a>wakeup_platform</h3></div></div></div><p>
+        Main repository (for develop teams) which have some testing utils and
+        refers to all other repositories as submodules.
+      </p><p>
+        Sources on: <a class="link" href="https://github.com/telefonicaid/wakeup_platform" target="_top">https://github.com/telefonicaid/wakeup_platform</a>
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49953392"></a>wakeup_platform_documentation</h3></div></div></div><p>
+        This repository hosts the project documentation (this document).
+      </p><p>
+        Sources on: <a class="link" href="https://github.com/telefonicaid/wakeup_platform_documentation" target="_top">https://github.com/telefonicaid/wakeup_platform_documentation</a>
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49992400"></a>wakeup_platform_global</h3></div></div></div><p>
+        This repository hosts the Global servers (the one that exposes the
+        public API and the local node status checker)
+      </p><p>
+        This repository also dependes (as submodule) on the common one commented
+        bellow.
+      </p><p>
+        Sources on: <a class="link" href="https://github.com/telefonicaid/wakeup_platform_global" target="_top">https://github.com/telefonicaid/wakeup_platform_global</a>
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49995456"></a>wakeup_platform_local</h3></div></div></div><p>
+        This repository hosts the Local servers (the one that can wakeup
+        devices and shall be deployed in each local OB)
+      </p><p>
+        Since this server will be deployed in a critical operator network, we
+        decided to avoid external dependencies so we can manage all the life
+        cycle of the server and improve security.
+      </p><p>
+        This repository also dependes (as submodule) on the common one commented
+        bellow.
+      </p><p>
+        Sources on: <a class="link" href="https://github.com/telefonicaid/wakeup_platform_local" target="_top">https://github.com/telefonicaid/wakeup_platform_local</a>
+      </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49999152"></a>wakeup_platform_common</h3></div></div></div><p>
+        This repository hosts the common libraries used by global and local nodes.
+      </p><p>
+        Sources on: <a class="link" href="https://github.com/telefonicaid/wakeup_platform_common" target="_top">https://github.com/telefonicaid/wakeup_platform_common</a>
+      </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s03.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Database structure </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 7. Notification Server Architecture</td></tr></table></div></body></html>

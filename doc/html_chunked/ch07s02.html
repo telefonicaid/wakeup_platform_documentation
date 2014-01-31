@@ -1,0 +1,39 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Types of servers</title><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="home" href="index.html" title="WakeUp platform"><link rel="up" href="ch07.html" title="Chapter 7. Notification Server Architecture"><link rel="prev" href="ch07.html" title="Chapter 7. Notification Server Architecture"><link rel="next" href="ch08.html" title="Chapter 8. Security"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Types of servers</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><th width="60%" align="center">Chapter 7. Notification Server Architecture</th><td width="20%" align="right"> <a accesskey="n" href="ch08.html">Next</a></td></tr></table><hr></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="idp49980672"></a>Types of servers</h2></div></div></div><p>
+      In order to be able to scale horizontally and vertically with no limits
+      all the server platform infrastructure had been splitted in several boxes
+      one of them dedicated to a particular task and also independent of the
+      rest so it can be scalled independently of the rest ones.
+    </p><p>
+        The names of each box follows this scheme:
+        WU-&lt;type_of_client&gt;
+    </p><p>
+      </p><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="450"><tr><td align="center"><img src="resources/wu_servers.png" align="middle" width="450"></td></tr></table><p>
+    </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49876640"></a>WU-Global-Server</h3></div></div></div><p>
+          The WU-Global-Server server is the responsible to intermediate
+          between the central Notification Server infrastructure (3rd party)
+          and each WU-Local-Server deployed in each OB.
+        </p><p>
+          This server exposes a public API through Internet which only trusted
+          partners can consume (see
+          <a class="xref" href="ch08.html" title="Chapter 8. Security">Security</a> chapter).
+        </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a name="idp49879568"></a>WU-Local-Server</h3></div></div></div><p>
+          The WU-Local-Server server is a proxy between the global WU servers
+          and the client equipment (device). This service will receive petitions
+          through a standard HTTP port and will send UDP datagrams or TCP
+          packets (for pinging purposes) inside the OB private network to the
+          private IP of the client equipment. This server must be placed inside
+          the OB private network or in a zone that must see that private IPs.
+        </p><p>
+          This server is responsible to ping to the correct client inside each
+          OB (using UDP datagrams). It must be placed inside the OB or in a
+          zone that can see the devices inside that private network.
+        </p><p>
+          This server will receive the ping orders through a standard HTTP
+          port which will be connected to InterNodo network to receive the
+          data from the VDC inside operator network.
+        </p><p>
+          The following scheme shows who the notification is sent with a wakeup
+          server:
+        </p><p>
+          </p><table border="0" summary="manufactured viewport for HTML img" style="cellpadding: 0; cellspacing: 0;" width="450"><tr><td align="center"><img src="resources/seqdiags/full_interaction_wakeup.png" align="middle" width="450"></td></tr></table><p>
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch07.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch08.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 7. Notification Server Architecture </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 8. Security</td></tr></table></div></body></html>
