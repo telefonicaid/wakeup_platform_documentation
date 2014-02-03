@@ -8,8 +8,9 @@
   <para>
     The protocol is designed to be as simple as possible (KISS philosofy).
   </para>
+
   <section>
-    <title>Network identification</title>
+    <title xml:id="networkId_title">Network identification</title>
     <para>
       First of all, mobile device SHALL inform their PUSH platforms in wich
       mobile network are they connected. To do this, two alternatives can be
@@ -17,9 +18,6 @@
       <itemizedlist>
         <listitem>
           MCC - MNC (Mobile Country/Network Codes)
-          <para>
-            This pair identifies each mobile network in a unique way.
-          </para>
           <para>
             This pair identifies each mobile network in a unique way.
           </para>
@@ -57,6 +55,7 @@
       </itemizedlist>
     </para>
   </section>
+
   <section>
     <title>Recovering network identification</title>
     <para>
@@ -67,22 +66,313 @@
       [TO-DO] DNS ENTRY FORMAT
     </para>
   </section>
+
   <section>
-    <title>Mobile device -> PUSH platform</title>
-    <para>
-      The mobile device SHALL inform his own PUSH platform each time some
-      network data is changed. (network change, IP change, ...).
-    </para>
-    <para>
-      The data sent to the PUSH platform SHALL contain:
-      <itemizedlist>
-        <listitem>Mobile IP addres</listitem>
-        <listitem>
-          TCP or UDP port in which the mobile agent is listening
-        </listitem>
-        <listitem>MCC-MNC or Network ID</listitem>
-      </itemizedlist>
-    </para>
+    <title>APIs</title>
+    <section>
+      <title>API: Mobile device -> PUSH platform</title>
+      <para>
+        The mobile device SHALL inform his own PUSH platform each time some
+        network data is changed. (network change, IP change, ...).
+      </para>
+      <para>
+        The data sent to the PUSH platform SHALL contain:
+        <itemizedlist>
+          <listitem>Mobile IP addres</listitem>
+          <listitem>
+            TCP or UDP port in which the mobile agent is listening
+          </listitem>
+          <listitem>MCC-MNC or Network ID ("<xref linkend="protocol" endterm="networkId_title" />")</listitem>
+        </itemizedlist>
+      </para>
+    </section>
+
+    <section>
+      <title>API: PUSH platform -> WakeUp platform (Global node)</title>
+      <para>
+        This service exposes a REST API in which some resources are shared with
+        other platform services (please refer to "<xref linkend="protocol" endterm="common_rest_res_title" />")
+      </para>
+      <para>
+        These servers listens in HTTP and not in HTTPS since SSL SHALL be
+        terminated by software (nginx, for example) or hardware equipments
+      </para>
+      <para>
+        This means, that all HTTP queries to the WakeUp nodes shall contain
+        these extra headers to inform about the client certificate. If these headers are not provided, WakeUp servers will answer with an error
+        (Status code 400).
+        <itemizedlist>
+          <listitem>
+            X-Real-IP:
+            <para>
+              This header will contain the IP address of the client.
+            </para>
+            <para>
+              This will be used in log traces.
+            </para>
+          </listitem>
+          <listitem>
+            X-Forwarded-For:
+            <para>
+              This headers contains the different proxies IP addresses used
+              between the client and the server.
+            </para>
+          </listitem>
+          <listitem>
+            X-Client-Cert-DN:
+            <para>
+              This will contain the client certificate DN string used to
+              identify the client in all log traces.
+            </para>
+            <para>
+              This will be used in log traces.
+            </para>
+          </listitem>
+          <listitem>
+            X-Client-Cert-Verified:
+            <para>
+              If SSL client verification is valid and SSL terminator rely on
+              this. This header SHALL contain 'SUCCESS'.
+            </para>
+            <para>
+              Any other value will be cosidered an invalid certificate and
+              the connection will be rejected.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <section>
+        <title>REST API: wakeup (global) resource</title>
+        <para>
+          Resource path is: wakeup/v1
+        </para>
+        <para>
+          This resource is used to wake up a device.
+          Only POST method is allowed.
+        </para>
+        <section>
+          <title>POST</title>
+          <para>
+            The HTTP payload is a parametrized string in "querystring" format:
+            <programlisting><![CDATA[
+              param1=value1&param2=value2&param3=value3
+            ]]></programlisting>
+          </para>
+          <para>
+            <itemizedlist>
+              <listitem>
+                ip: <para>IP Address of the client device</para>
+                <para>
+                  Shall be a valid IPv4 address
+                </para>
+              </listitem>
+              <listitem>
+                port:
+                <para>
+                  TCP or UDP port in which the client is waiting wakeup for
+                  notifications
+                </para>
+                <para>
+                  Shall be a number between 0 and 65535
+                </para>
+              </listitem>
+              <listitem>
+                netid:
+                <para>
+                  Network ID
+                  ("<xref linkend="protocol" endterm="networkId_title" />")
+                </para>
+                <para>
+                  Shall be a string
+                </para>
+              </listitem>
+              <listitem>
+                mcc: <para>Mobile Country Code (if netid is not provided)</para>
+                <para>
+                  Shall be a number
+                </para>
+              </listitem>
+              <listitem>
+                mnc: <para>Mobile Network Code (if netid is not provided)</para>
+                <para>
+                  Shall be a number
+                </para>
+              </listitem>
+              <listitem>
+                proto: <para>WakeUp protocol.</para>
+                <para>
+                  This is optional. By default UDP
+                </para>
+                <para>
+                  Shall be one of these values:
+                  <itemizedlist>
+                    <listitem>tcp</listitem>
+                    <listitem>udp</listitem>
+                  </itemizedlist>
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>Internal API: Local nodes</title>
+      <para>
+        Resource path: wakeup
+      </para>
+      <section>
+        <title>REST API: wakeup (local) resource</title>
+        <para>
+          Resource path is:
+        </para>
+        <para>
+          This resource is used to wake up a device. POST and GET are supported.
+          GET is supported for backwards compatibility but it's deprecated.
+        </para>
+        <section>
+          <title>POST</title>
+          <para>
+            The HTTP payload is a parametrized string in "querystring" format:
+           <programlisting><![CDATA[
+              param1=value1&param2=value2&param3=value3
+            ]]></programlisting>
+           </para>
+        </section>
+        <section>
+          <title>GET</title>
+          <para>
+            The URL contains a parametrized string in "querystring" format:
+           <programlisting><![CDATA[
+              param1=value1&param2=value2&param3=value3
+            ]]></programlisting>
+           </para>
+        </section>
+        <section>
+          <title>Common querystring for GET and POST methods</title>
+          <para>
+            <itemizedlist>
+              <listitem>
+                ip: <para>IP Address of the client device</para>
+                <para>
+                  Shall be a valid IPv4 address
+                </para>
+              </listitem>
+              <listitem>
+                port:
+                <para>
+                  TCP or UDP port in which the client is waiting wakeup for
+                  notifications
+                </para>
+                <para>
+                  Shall be a number between 0 and 65535
+                </para>
+              </listitem>
+              <listitem>
+                netid:
+                <para>
+                  Network ID
+                  ("<xref linkend="protocol" endterm="networkId_title" />")
+                </para>
+                <para>
+                  Shall be a string
+                </para>
+              </listitem>
+              <listitem>
+                mcc: <para>Mobile Country Code (if netid is not provided)</para>
+                <para>
+                  Shall be a number
+                </para>
+              </listitem>
+              <listitem>
+                mnc: <para>Mobile Network Code (if netid is not provided)</para>
+                <para>
+                  Shall be a number
+                </para>
+              </listitem>
+              <listitem>
+                proto: <para>WakeUp protocol.</para>
+                <para>
+                  This is optional. By default UDP
+                </para>
+                <para>
+                  Shall be one of these values:
+                  <itemizedlist>
+                    <listitem>tcp</listitem>
+                    <listitem>udp</listitem>
+                  </itemizedlist>
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title xml:id="common_rest_res_title">Common REST API resources</title>
+      <section>
+        <title>REST API: about resource</title>
+        <para>
+          Resource path is: about
+        </para>
+        <para>
+          Also, this is the default path, if no other path is defined.
+        </para>
+        <section>
+          <title>GET</title>
+          <para>
+            No parameters needed. Returns a HTML information page
+          </para>
+        </section>
+      </section>
+
+      <section>
+        <title xml:id="api_status">REST API: status resource</title>
+        <para>
+          Resource path is: status
+        </para>
+        <para>
+          This method is used to check server availability. If, for any reason,
+          it's needed to avoid traffic through one server, this method can
+          set the service as offline.
+        </para>
+        <para>
+          Can be used by load balancers and by the global checker service
+        </para>
+        <section>
+          <title>GET</title>
+          <para>
+            No parameters needed. Returns a 200 OK or 503 Service Unavailable.
+          </para>
+        </section>
+        <section>
+          <title>POST</title>
+          <para>
+            Changes the status of the service.
+          </para>
+          <para>
+            The HTTP payload is a parametrized string in "querystring" format:
+            <programlisting><![CDATA[
+              param1=value1&param2=value2&param3=value3
+            ]]></programlisting>
+            with only one value:
+          </para>
+          <para>
+            enable = [true | false]
+          </para>
+          <para>
+            To enable or disable, you can use this simple curl calls:
+            <programlisting>
+curl -d 'enable=true' -k --key test_ca/TEST_CERTIFICATES/client.key --cert test_ca/TEST_CERTIFICATES/client.crt https://localhost/local/status
+
+curl -d 'enable=false' -k --key test_ca/TEST_CERTIFICATES/client.key --cert test_ca/TEST_CERTIFICATES/client.crt https://localhost/local/status
+            </programlisting>
+          </para>
+        </section>
+      </section>
+    </section>
   </section>
 
 </chapter>

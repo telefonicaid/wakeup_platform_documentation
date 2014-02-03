@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="security"
+      xmlns="http://docbook.org/ns/docbook"
+      version="5.0" xml:lang="en">
+
+  <title xml:id="security_title">Security</title>
+  <para>
+    This chapter explains all security topics related with the notification
+    server
+  </para>
+  <para>
+    The security is managed with Client certificates and only clients with
+    signed key can consume these APIs.
+  </para>
+  <section>
+    <title>Identify the client</title>
+    <para>
+      [TBD]
+    </para>
+  </section>
+  <section>
+    <title>Possible attacks and how to mitigate it</title>
+    <para>
+      <itemizedlist>
+        <listitem>
+          [TBD]
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+</chapter>

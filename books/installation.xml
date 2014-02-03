@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="installation"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      version="5.0" xml:lang="en">
+
+  <title>Installation and Configuration</title>
+  <para>
+    This chapter explains the requirements, to install and configure the
+    wakeup platform correctly
+  </para>
+  <para>
+  <imagedata fileref="resources/WakeUpScheme.png" align="center" width="5in" />
+  </para>
+  <section>
+    <title>Local nodes</title>
+    <para>
+      This server shall be installed inside mobile networks so it has a network
+      interface into the same IP segment as mobile phones.
+    </para>
+    <para>
+      Also it needs a second network interface which connects this nodes to the
+      global one (through operator dedicated networks, VPNs, ...)
+    </para>
+    <para>
+      Local node will receive HTTP queries to three resources (about,
+      status and wakeup), so any other HTTP query can be securelly filtered.
+    </para>
+    <para>
+      Finally, this server will send TCP and/or UDP queries to the mobile
+      network.
+    </para>
+  </section>
+
+  <section>
+    <title>Global node</title>
+    <para>
+      This server should be installed in an Internet accesible network but with
+      a SSL Terminator as a frontend.
+    </para>
+    <para>
+      Global node will receive HTTP(s) queries to three resources (about,
+      status and wakeup/v1), so any other HTTP query can be securelly filtered.
+    </para>
+    <section>
+      <title>REDIS server</title>
+      <para>
+        The global node depends on a REDIS instance to recover mobile netowrks
+        information and local nodes URLs.
+      </para>
+    </section>
+  </section>
+
+  <section>
+    <title>SSL Terminator</title>
+    <para>
+      The service is designed to work with a SSL Terminator / SSL Offloader
+      as a frontend, in other words, all connections SHALL be verified with a
+      HTTP SSL Server (Hardware terminators, Apache, NGINX, ...)
+    </para>
+    <para>
+      These servers will verify client and pass the SSL verification result to
+      the Wakeup servers with these HTTP extended HEADERS:
+    </para>
+    <para>
+      <itemizedlist>
+        <listitem>
+          X-Real-IP:
+          <para>
+            This header will contain the IP address of the client.
+          </para>
+        </listitem>
+        <listitem>
+          X-Forwarded-For:
+          <para>
+            This headers contains the different proxies IP addresses used
+            between the client and the server.
+          </para>
+        </listitem>
+        <listitem>
+          X-Client-Cert-DN:
+          <para>
+            This will contain the client certificate DN string used to
+            identify the client in all log traces.
+          </para>
+        </listitem>
+        <listitem>
+          X-Client-Cert-Verified:
+          <para>
+            If SSL client verification is valid and SSL terminator rely on
+            this. To consider a succesful check this header SHALL be 'SUCCESS'.
+          </para>
+          <para>
+            Any other value will be cosidered an invalid certificate and
+            the connection will be rejected.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+    <section>
+      <title>NGINX example setup</title>
+      <para>
+        If you decide to use NGINX as a
+        <link xlink:href="http://wiki.nginx.org/SSL-Offloader">
+          software terminator
+        </link>
+        , you can use this configuration file as a template.
+      </para>
+      <para>
+        Into the utils/test_ca folder of main wakeup_platform project
+        (<xref linkend="sourcecode" endterm="wu_platform_project" />)
+        you will locate this sample configuration that can be used as a
+        simple reference:
+      </para>
+      <para>
+        <programlisting><xi:include
+          href="../../utils/test_ca/example_nginx.conf" parse="text" />
+        </programlisting>
+      </para>
+    </section>
+  </section>
+
+  <section>
+    <title>Create your own Certification Authority</title>
+    <para>
+      Using OpenSSL you can create your own CA for testing or deploying purposes
+    </para>
+    <para>
+      Into the utils/test_ca folder of main wakeup_platform project
+      (<xref linkend="sourcecode" endterm="wu_platform_project" />)
+      you will locate this sample script can be used as a simple reference:
+    </para>
+    <para>
+      <programlisting><xi:include
+        href="../../utils/test_ca/create_test_certificates.sh" parse="text" />
+      </programlisting>
+    </para>
+  </section>
+
+  <section>
+    <title>Provision mobile networks data</title>
+    <para>
+      Into the utils/mccmnc_provisioner folder of main wakeup_platform project
+      (<xref linkend="sourcecode" endterm="wu_platform_project" />)
+    </para>
+    <para>
+      To launch it you need AWK and Redis CLI support.
+    </para>
+    <para>
+      <programlisting>awk -f load_mcc_mnc_onredis.awk mcc_mnc_list.csv
+      </programlisting>
+    </para>
+    <para>
+      If you need a localhost complete environment (for testing purposes, not
+      recomended in production), you can provision a test network with these
+      simple commands:
+    </para>
+    <para>
+      <programlisting><xi:include
+        href="../../utils/provision_testnetwork.sh" parse="text" />
+      </programlisting>
+    </para>
+    <para>
+      Check <xref linkend="sourcecode" endterm="op_collection" /> and
+      <xref linkend="sourcecode" endterm="net_collection" /> sections to better
+      understand these scripts.
+    </para>
+  </section>
+
+</chapter>

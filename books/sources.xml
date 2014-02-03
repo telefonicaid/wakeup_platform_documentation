@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="sourcecode"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Source Code</title>
+  <para>
+    This chapter explains how the source code and GIT repositories are organized
+  </para>
+  <para>
+    If you want to collaborate you should read this chapter.
+  </para>
+
+  <section>
+    <title>How it's implemented</title>
+    <para>
+      This project is implemented using JavaScript on the server (Node.JS)
+    </para>
+  </section>
+
+  <section>
+    <title>External dependencies</title>
+    <para>
+      All node dependecies will be downloaded automatically using NPM
+    </para>
+    <para>
+      The global node depends in these other projects and versions:
+      <itemizedlist>
+        <listitem>
+          Node.JS
+          <para>Used as the basic framework</para>
+        </listitem>
+        <listitem>
+          REDIS
+          <para>Used as a very fast data storage</para>
+        </listitem>
+        <listitem>
+          Node.JS log4js Version 0.6.x
+          <para>Used as logging library</para>
+        </listitem>
+        <listitem>
+          Node.JS redis Version 0.9.x
+          <para>Needed to communicate with the REDIS database</para>
+        </listitem>
+        <listitem>
+          Node.JS request Version 2.27.x
+          <para>
+            Needed to create new HTTP requests to the different servers
+          </para>
+        </listitem>
+        <listitem>
+          Node.JS range_check Version 0.0.x
+          <para>
+            Used to check if the received IPs are in the same IP range managed
+            by the different local servers
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      The local node depends in these other projects and versions:
+      <itemizedlist>
+        <listitem>
+          Node.JS
+          <para>Used as the basic framework</para>
+        </listitem>
+        <listitem>
+          Node.JS log4js Version 0.6.x
+          <para>Used as logging library</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+    <para>
+      For development only these libraries and needed too:
+      <itemizedlist>
+        <listitem>
+          Node.JS
+          <para>Used as the basic framework</para>
+        </listitem>
+        <listitem>
+          REDIS
+          <para>Used as a very fast data storage</para>
+        </listitem>
+        <listitem>
+          Node.JS vows Version 0.7.x
+          <para>Used as unit test framework</para>
+        </listitem>
+        <listitem>
+          Node.JS complexity-report Version 1.0.x
+          <para>Used to generate cyclomatic complexity reports</para>
+        </listitem>
+        <listitem>
+          Node.JS async Version 0.2.x
+          <para>Needed to have a more clear code</para>
+        </listitem>
+      </itemizedlist>
+    </para>
+  </section>
+
+  <section>
+    <title>Database structure</title>
+    <para>
+      The WakeUp database is splitted in two collections:
+    </para>
+    <para>
+      The mobile_networks.js library is used to talk with the database store.
+    </para>
+    <section>
+      <title xml:id="net_collection">Networks collection</title>
+      <para>
+        This collection is the most important one since this hosts each local
+        server information (IP address, IP range of his managed network, current
+        status, ...)
+      </para>
+      <para>
+        This collection will be queried allways, if the client give us the
+        MCC-MNC pair, we will query the <xref linkend="sourcecode" endterm="op_collection" /> to get the default network. After that, we will query
+        this collection to find that network.
+      </para>
+      <para>
+        If networkId is provided in the query, resolution will be faster since
+        only one query to this collection is needed.
+      </para>
+      <para>
+        Each register is a JSON formatted string with the following attributes:
+        <itemizedlist>
+          <listitem>
+            host:
+            <para>
+              URL to send HTTP queries to local nodes.
+            </para>
+            <para>
+              Shall follow the standard URI scheme: http(s)://host:port
+            </para>
+          </listitem>
+          <listitem>
+            range:
+            <para>
+              IP range or ranges accepted into this network.
+            </para>
+            <para>
+              Shall follow the standard CIDR scheme: a.b.c.d/n
+            </para>
+            <para>
+              An array of ranges is also allowed: [ "a.b.c.d/n", "a.b.c.d/n" ]
+            </para>
+          </listitem>
+          <listitem>
+            nework: <para>MCC-MNC of this network</para>
+            <para>
+              This MCC-MNC can be shared by multiple networks.
+            </para>
+          </listitem>
+          <listitem>
+            offline:
+            <para>
+              Used by the local server checker to inform about a fail in the
+              local nodes
+            </para>
+            <para>
+              If this attribute is not available, it's considered as if the
+              local server is working normally.
+            </para>
+            <para>
+              Valid values are allways boolean (true or false)
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        Some examples:
+      </para>
+      <para>
+        Local host with issues:
+        <programlisting>"networkLocal": {
+  "host": "http://127.0.0.1:9000",
+  "range": "10.0.0.0/8",
+  "network": "214-07",
+  "offline": true
+}
+        </programlisting>
+      </para>
+      <para>
+        Local wakeup without any issue:
+        <programlisting>"networkBTest": {
+  "host": "http://127.0.0.1:9000",
+  "range": "10.95.0.0/16",
+  "network": "002-01",
+  "offline": false
+}
+        </programlisting>
+      </para>
+      <para>
+        Local wakeup without any issue (or unknown satus):
+        <programlisting>"networkCTest": {
+ "host": "http://127.0.0.1:9000",
+ "range": "10.0.0.0/8",
+ "network": "214-07"
+}
+        </programlisting>
+      </para>
+    </section>
+    <section>
+      <title xml:id="op_collection">Operators collection</title>
+      <para>
+        This collection stores mobile operators MCC-MNC list and the default
+        "network" to get the local server host.
+      </para>
+      <para>
+        So if the network query is done using MCC-MNC pair, we can only get one
+        network to deliver the message, which is enough to many carriers, but
+        if the carrier manages more than one subnetwork with the same MCC-MNC
+        pair, an explicit networkId is needed. After that, a query to
+        <xref linkend="sourcecode" endterm="net_collection" /> is needed.
+      </para>
+      <para>
+        Each register is a JSON formatted string with the following attributes:
+        <itemizedlist>
+          <listitem>
+            country: <para>Operator country</para>
+          </listitem>
+          <listitem>
+            operator: <para>Operator name</para>
+          </listitem>
+          <listitem>
+            mccmnc:
+            <para>
+              MCC-MNC pair which identifies this operator. A dash is used to sepparate both numbers
+            </para>
+          </listitem>
+          <listitem>
+            defaultNetwork:
+            <para>
+              [OPTIONAL] Refers to the default network which shall be queried
+              in <xref linkend="sourcecode" endterm="net_collection" /> for this
+              MCC-MNC.
+            </para>
+            <para>
+              This is an optional attribute, only needed if the operator wants
+              to accept MCC-MNC identified networks into the query.
+            </para>
+            <para>
+              If not provided, all queries to this MCC-MNC will be ignored.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        Some examples:
+      </para>
+      <para>
+        Without default network:
+        <programlisting>"214-07": {
+  "country": "Spain",
+  "operator": "Telef\xf3nica M\xf3viles Espa\xf1a, SAU",
+  "mccmnc": "214-07"
+}
+        </programlisting>
+      </para>
+      <para>
+        With default network:
+        <programlisting>"214-07": {
+  "country": "Spain",
+  "operator": "Telef\xf3nica M\xf3viles Espa\xf1a, SAU",
+  "mccmnc": "214-07",
+  "defaultNetwork": "networkTest"
+}
+        </programlisting>
+      </para>
+    </section>
+    <section>
+      <title>Provision scripts</title>
+      <para>
+        Inside the master project (<xref linkend="sourcecode" endterm="wu_platform_project" />), a utils folder with provisioning scripts
+        can be obtained to populate this database with all known MCC-MNC pair
+        in the world.
+      </para>
+    </section>
+  </section>
+
+  <section>
+    <title>Repositories and submodules</title>
+    <para>
+      The project is splitted into several GIT repositories hosted in GITHub:
+    </para>
+    <section>
+      <title xml:id="wu_platform_project">wakeup_platform</title>
+      <para>
+        Main repository (for develop teams) which have some testing utils and
+        refers to all other repositories as submodules.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform"></link>
+      </para>
+    </section>
+    <section>
+      <title>wakeup_platform_documentation</title>
+      <para>
+        This repository hosts the project documentation (this document).
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_documentation"></link>
+      </para>
+    </section>
+    <section>
+      <title>wakeup_platform_global</title>
+      <para>
+        This repository hosts the Global servers (the one that exposes the
+        public API and the local node status checker)
+      </para>
+      <para>
+        This repository also dependes (as submodule) on the common one commented
+        bellow.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_global"></link>
+      </para>
+    </section>
+    <section>
+      <title>wakeup_platform_local</title>
+      <para>
+        This repository hosts the Local servers (the one that can wakeup
+        devices and shall be deployed in each local OB)
+      </para>
+      <para>
+        Since this server will be deployed in a critical operator network, we
+        decided to avoid external dependencies so we can manage all the life
+        cycle of the server and improve security.
+      </para>
+      <para>
+        This repository also dependes (as submodule) on the common one commented
+        bellow.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_local"></link>
+      </para>
+    </section>
+    <section>
+      <title>wakeup_platform_common</title>
+      <para>
+        This repository hosts the common libraries used by global and local nodes.
+      </para>
+      <para>
+        Sources on: <link xlink:href="https://github.com/telefonicaid/wakeup_platform_common"></link>
+      </para>
+    </section>
+  </section>
+</chapter>

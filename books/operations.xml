@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter xml:id="operations"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="5.0" xml:lang="en">
+
+  <title>Operations and administration</title>
+  <para>
+    This chapter explains how to proceed in case of troubles
+  </para>
+
+  <section>
+    <title>Local nodes</title>
+    <para>
+    </para>
+  </section>
+
+  <section>
+    <title>Global node</title>
+    <para>
+    </para>
+  </section>
+
+  <section>
+    <title>Enable/Disable service</title>
+    <para>
+      Both, local and global nodes, exposes an API which lets operators disable
+      the service so load balancers will not send queries to these ones.
+    </para>
+    <para>
+      This is based on the status API method (see
+      <xref linkend="protocol" endterm="api_status" /> section)
+    </para>
+    <para>
+      If the operator needs to work on a machine, he first should disable the
+      service sending the correct command to the service:
+      <programlisting>curl -d 'enable=false' -k --key test_ca/TEST_CERTIFICATES/client.key --cert test_ca/TEST_CERTIFICATES/client.crt https://[SERVER]/status</programlisting>
+    </para>
+    <para>
+      After maintainment is finished, the operator will reenable the service
+      again with this other command:
+      <programlisting>curl -d 'enable=true' -k --key test_ca/TEST_CERTIFICATES/client.key --cert test_ca/TEST_CERTIFICATES/client.crt https://[SERVER]/status</programlisting>
+    </para>
+    <para>
+      Load balancers will check the response of the GET query to the status URL
+      (https://[SERVER]/status/). If the HTTP status is 200 (OK) the service is
+      enabled. If the response is 503 (Under maintanance) the service is
+      disabled
+    </para>
+  </section>
+
+  <section>
+    <title>Data Storage</title>
+
+  </section>
+</chapter>

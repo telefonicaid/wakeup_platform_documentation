@@ -20,15 +20,21 @@
           <surname>Rodriguez Sela</surname>
         </personname>
       </author>
+      <author>
+        <personname>
+          <firstname>Guillermo</firstname>
+          <surname>Lopez Leal</surname>
+        </personname>
+      </author>
     </authorgroup>
     <copyright>
-      <year>2013</year>
+      <year>2014</year>
       <holder>Telefonica Digital (PDI), All rights reserved.</holder>
     </copyright>
     <revhistory>
       <revision>
         <revnumber>1.0</revnumber>
-        <date>November 2013</date>
+        <date>January 2014</date>
         <authorinitials>FRS</authorinitials>
         <revremark>First Edition</revremark>
         <revdescription>First draft of the architecture document</revdescription>
@@ -38,8 +44,13 @@
   </info>
 
   <xi:include href="introduction.xml" />
-  <xi:include href="protocol.xml" />
   <xi:include href="network_issues.xml" />
+  <xi:include href="protocol.xml" />
+  <xi:include href="installation.xml" />
+  <xi:include href="operations.xml" />
+  <xi:include href="sources.xml" />
+  <xi:include href="architecture.xml" />
+  <xi:include href="security.xml" />
   <chapter>
     <title>License</title>
     <programlisting>
