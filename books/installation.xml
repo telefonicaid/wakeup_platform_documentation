@@ -14,13 +14,40 @@
   <section>
     <title>Local nodes</title>
     <para>
+      This server shall be installed inside mobile networks so it has a network
+      interface into the same IP segment as mobile phones.
+    </para>
+    <para>
+      Also it needs a second network interface which connects this nodes to the
+      global one (through operator dedicated networks, VPNs, ...)
+    </para>
+    <para>
+      Local node will receive HTTP queries to three resources (about,
+      status and wakeup), so any other HTTP query can be securelly filtered.
+    </para>
+    <para>
+      Finally, this server will send TCP and/or UDP queries to the mobile
+      network.
     </para>
   </section>
 
   <section>
     <title>Global node</title>
     <para>
+      This server should be installed in an Internet accesible network but with
+      a SSL Terminator as a frontend.
     </para>
+    <para>
+      Global node will receive HTTP(s) queries to three resources (about,
+      status and wakeup/v1), so any other HTTP query can be securelly filtered.
+    </para>
+    <section>
+      <title>REDIS server</title>
+      <para>
+        The global node depends on a REDIS instance to recover mobile netowrks
+        information and local nodes URLs.
+      </para>
+    </section>
   </section>
 
   <section>
