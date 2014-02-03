@@ -10,7 +10,9 @@
     This chapter explains the requirements, to install and configure the
     wakeup platform correctly
   </para>
-
+  <para>
+  <imagedata fileref="resources/WakeUpScheme.png" align="center" width="5in" />
+  </para>
   <section>
     <title>Local nodes</title>
     <para>
