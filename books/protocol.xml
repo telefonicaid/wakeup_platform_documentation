@@ -135,7 +135,7 @@
             X-Client-Cert-Verified:
             <para>
               If SSL client verification is valid and SSL terminator rely on
-              this, this header SHALL containt 'SUCCESS'.
+              this. This header SHALL contain 'SUCCESS'.
             </para>
             <para>
               Any other value will be cosidered an invalid certificate and
@@ -332,7 +332,7 @@
       </section>
 
       <section>
-        <title>REST API: status resource</title>
+        <title xml:id="api_status">REST API: status resource</title>
         <para>
           Resource path is: status
         </para>

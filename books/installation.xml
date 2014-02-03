@@ -13,22 +13,71 @@
 
   <section>
     <title>Local nodes</title>
-
+    <para>
+    </para>
   </section>
 
   <section>
     <title>Global node</title>
-
+    <para>
+    </para>
   </section>
 
   <section>
     <title>SSL Terminator</title>
+    <para>
+      The service is designed to work with a SSL Terminator / SSL Offloader
+      as a frontend, in other words, all connections SHALL be verified with a
+      HTTP SSL Server (Hardware terminators, Apache, NGINX, ...)
+    </para>
+    <para>
+      These servers will verify client and pass the SSL verification result to
+      the Wakeup servers with these HTTP extended HEADERS:
+    </para>
+    <para>
+      <itemizedlist>
+        <listitem>
+          X-Real-IP:
+          <para>
+            This header will contain the IP address of the client.
+          </para>
+        </listitem>
+        <listitem>
+          X-Forwarded-For:
+          <para>
+            This headers contains the different proxies IP addresses used
+            between the client and the server.
+          </para>
+        </listitem>
+        <listitem>
+          X-Client-Cert-DN:
+          <para>
+            This will contain the client certificate DN string used to
+            identify the client in all log traces.
+          </para>
+        </listitem>
+        <listitem>
+          X-Client-Cert-Verified:
+          <para>
+            If SSL client verification is valid and SSL terminator rely on
+            this. To consider a succesful check this header SHALL be 'SUCCESS'.
+          </para>
+          <para>
+            Any other value will be cosidered an invalid certificate and
+            the connection will be rejected.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
 
     <section>
-      <title>NGINX Setup</title>
+      <title>NGINX example setup</title>
       <para>
-        If you decide to use NGINX as a software terminator, you can use this
-        configuration file as a template.
+        If you decide to use NGINX as a
+        <link xlink:href="http://wiki.nginx.org/SSL-Offloader">
+          software terminator
+        </link>
+        , you can use this configuration file as a template.
       </para>
       <para>
         Into the utils/test_ca folder of main wakeup_platform project
