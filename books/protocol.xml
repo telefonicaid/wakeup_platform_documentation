@@ -173,7 +173,7 @@
                   notifications
                 </para>
                 <para>
-                  Shall be a number between 0 and 65535
+                  Shall be a number between 1 and 65535
                 </para>
               </listitem>
               <listitem>
@@ -266,29 +266,7 @@
                   notifications
                 </para>
                 <para>
-                  Shall be a number between 0 and 65535
-                </para>
-              </listitem>
-              <listitem>
-                netid:
-                <para>
-                  Network ID
-                  ("<xref linkend="protocol" endterm="networkId_title" />")
-                </para>
-                <para>
-                  Shall be a string
-                </para>
-              </listitem>
-              <listitem>
-                mcc: <para>Mobile Country Code (if netid is not provided)</para>
-                <para>
-                  Shall be a number
-                </para>
-              </listitem>
-              <listitem>
-                mnc: <para>Mobile Network Code (if netid is not provided)</para>
-                <para>
-                  Shall be a number
+                  Shall be a number between 1 and 65535
                 </para>
               </listitem>
               <listitem>
