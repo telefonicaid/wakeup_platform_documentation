@@ -44,10 +44,46 @@
       status and wakeup/v1), so any other HTTP query can be securelly filtered.
     </para>
     <section>
-      <title>REDIS server</title>
+      <title>Mobile networks configuration file</title>
       <para>
-        The global node depends on a REDIS instance to recover mobile netowrks
-        information and local nodes URLs.
+        Instead a common database, a simple configuration file is used to manage
+        the different local networks.
+      </para>
+      <para>
+        The networks.json configuration field shall be a well formed JSON file.
+      </para>
+      <para>
+        The contents shall follow this scheme:
+      </para>
+      <para>
+        <programlisting><![CDATA[
+          {
+            "<netidname>": {
+              "host": "<local host URL>",
+              "range": "<IP Range or ranges allowed in this network>",
+              "network": "<MCC-MNC pair>",
+              "offline": <true|false>
+            },
+            ...
+          }
+        ]]></programlisting>
+      </para>
+      <para>
+        Example:
+        <programlisting><![CDATA[
+          {
+            "214-07": {
+              "host": "http://localhost:9000",
+              "range": "10.0.0.0/8",
+              "network": "214-07",
+              "offline": true
+            }
+          }
+        ]]></programlisting>
+      </para>
+      <para>
+        See the network collection info here:
+        <xref linkend="sourcecode" endterm="net_collection" />
       </para>
     </section>
   </section>

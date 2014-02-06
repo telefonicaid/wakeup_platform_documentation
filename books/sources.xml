@@ -32,16 +32,8 @@
           <para>Used as the basic framework</para>
         </listitem>
         <listitem>
-          REDIS
-          <para>Used as a very fast data storage</para>
-        </listitem>
-        <listitem>
           Node.JS log4js Version 0.6.x
           <para>Used as logging library</para>
-        </listitem>
-        <listitem>
-          Node.JS redis Version 0.9.x
-          <para>Needed to communicate with the REDIS database</para>
         </listitem>
         <listitem>
           Node.JS request Version 2.27.x
@@ -79,10 +71,6 @@
           <para>Used as the basic framework</para>
         </listitem>
         <listitem>
-          REDIS
-          <para>Used as a very fast data storage</para>
-        </listitem>
-        <listitem>
           Node.JS vows Version 0.7.x
           <para>Used as unit test framework</para>
         </listitem>
@@ -101,10 +89,10 @@
   <section>
     <title>Database structure</title>
     <para>
-      The WakeUp database is splitted in two collections:
+      The mobile_networks.js library is used to talk with the database store.
     </para>
     <para>
-      The mobile_networks.js library is used to talk with the database store.
+      The database store is a simple JSON file called "networks.json"
     </para>
     <section>
       <title xml:id="net_collection">Networks collection</title>
@@ -115,7 +103,8 @@
       </para>
       <para>
         This collection will be queried allways, if the client give us the
-        MCC-MNC pair, we will query the <xref linkend="sourcecode" endterm="op_collection" /> to get the default network. After that, we will query
+        MCC-MNC pair, the server will generate a generic network id with the
+        MCC MNC pair splitted by a dash. After that, the service will query
         this collection to find that network.
       </para>
       <para>
@@ -199,82 +188,6 @@
  "network": "214-07"
 }
         </programlisting>
-      </para>
-    </section>
-    <section>
-      <title xml:id="op_collection">Operators collection</title>
-      <para>
-        This collection stores mobile operators MCC-MNC list and the default
-        "network" to get the local server host.
-      </para>
-      <para>
-        So if the network query is done using MCC-MNC pair, we can only get one
-        network to deliver the message, which is enough to many carriers, but
-        if the carrier manages more than one subnetwork with the same MCC-MNC
-        pair, an explicit networkId is needed. After that, a query to
-        <xref linkend="sourcecode" endterm="net_collection" /> is needed.
-      </para>
-      <para>
-        Each register is a JSON formatted string with the following attributes:
-        <itemizedlist>
-          <listitem>
-            country: <para>Operator country</para>
-          </listitem>
-          <listitem>
-            operator: <para>Operator name</para>
-          </listitem>
-          <listitem>
-            mccmnc:
-            <para>
-              MCC-MNC pair which identifies this operator. A dash is used to sepparate both numbers
-            </para>
-          </listitem>
-          <listitem>
-            defaultNetwork:
-            <para>
-              [OPTIONAL] Refers to the default network which shall be queried
-              in <xref linkend="sourcecode" endterm="net_collection" /> for this
-              MCC-MNC.
-            </para>
-            <para>
-              This is an optional attribute, only needed if the operator wants
-              to accept MCC-MNC identified networks into the query.
-            </para>
-            <para>
-              If not provided, all queries to this MCC-MNC will be ignored.
-            </para>
-          </listitem>
-        </itemizedlist>
-      </para>
-      <para>
-        Some examples:
-      </para>
-      <para>
-        Without default network:
-        <programlisting>"214-07": {
-  "country": "Spain",
-  "operator": "Telef\xf3nica M\xf3viles Espa\xf1a, SAU",
-  "mccmnc": "214-07"
-}
-        </programlisting>
-      </para>
-      <para>
-        With default network:
-        <programlisting>"214-07": {
-  "country": "Spain",
-  "operator": "Telef\xf3nica M\xf3viles Espa\xf1a, SAU",
-  "mccmnc": "214-07",
-  "defaultNetwork": "networkTest"
-}
-        </programlisting>
-      </para>
-    </section>
-    <section>
-      <title>Provision scripts</title>
-      <para>
-        Inside the master project (<xref linkend="sourcecode" endterm="wu_platform_project" />), a utils folder with provisioning scripts
-        can be obtained to populate this database with all known MCC-MNC pair
-        in the world.
       </para>
     </section>
   </section>
