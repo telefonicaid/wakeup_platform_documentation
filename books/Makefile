@@ -21,9 +21,9 @@ $(SUBDIRS):
 version.info:
 	@echo "Getting version information from GIT ..."
 	@git describe --all --always > ../version.info
-	@echo " - Version = " `cat version.info`
+	@echo " - Version = " `cat ../version.info`
 	@date > ../date.info
-	@echo " - Date = " `cat date.info`
+	@echo " - Date = " `cat ../date.info`
 
 clean:
 	rm -f ../version.info
