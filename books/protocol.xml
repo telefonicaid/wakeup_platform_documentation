@@ -215,6 +215,27 @@
           </para>
         </section>
       </section>
+      <section>
+        <title>REST API: netinfo resource</title>
+        <para>
+          This method informs about all supported networks by this server and
+          the current status of each one.
+        </para>
+        <section>
+          <title>GET</title>
+          <para>
+            Only GET method is allowed. The response contains an array with all
+            supported networks with the mcc-mnc of each one, the assigned
+            network id (netid), the IP accepted range or ranges and the current
+            status of the network (offline)
+          </para>
+          <para>
+            <programlisting>
+               [{"netid":"214-07","mccmnc":"214-07","range":"10.0.0.0/8","offline":true}]
+            </programlisting>
+          </para>
+        </section>
+      </section>
     </section>
 
     <section>
