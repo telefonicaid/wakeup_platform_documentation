@@ -218,6 +218,9 @@
       <section>
         <title>REST API: netinfo resource</title>
         <para>
+          Resource path is: netinfo/v1
+        </para>
+        <para>
           This method informs about all supported networks by this server and
           the current status of each one.
         </para>
@@ -240,13 +243,10 @@
 
     <section>
       <title>Internal API: Local nodes</title>
-      <para>
-        Resource path: wakeup
-      </para>
       <section>
         <title>REST API: wakeup (local) resource</title>
         <para>
-          Resource path is:
+          Resource path is: wakeup
         </para>
         <para>
           This resource is used to wake up a device. POST and GET are supported.
