@@ -3,35 +3,35 @@
       xmlns="http://docbook.org/ns/docbook"
       version="5.0" xml:lang="en">
 
-  <title xml:id="network_issues_title">Mobile network issues with current PUSH platforms</title>
+  <title xml:id="network_issues_title">Mobile network issues with current Push platforms</title>
   <para>
     This chapter explains why current solutions are bad for the mobile networks
-    and how we designed this server to solve this issues.
+    and how we designed this server to solve these issues.
   </para>
   <para>
-    In order to understand the complete problem, we need to introduce you on how
-    the mobile nerworks work at radio level and also how the carriers have their
-    network infrastructure. So, go ahead !
+    In order to understand the complete problem, we need to introduce how
+    the mobile networks work at radio level and also how the carriers have their
+    network infrastructure.
   </para>
 
   <section>
     <title>Mobile networks in a Private or Public LAN</title>
     <para>
-      Since on IPv4 the amount of free adresses is really low, celular networks
-      were divided into the ones with real IPv4 adresses (normally for 3G modems)
-      and private adressing model for handsets.
+      Since on IPv4 the amount of free addresses is really low (it is usually 2<superscript>24</superscript> IPs, or 16777216), cellular networks
+      are divided into the ones with real IPv4 addresses (normally for 3G modems) and private addressing model for handsets, usually with NAT protocols.
     </para>
     <para>
-      On the case of private networks, it's obvious that it's not possible to
-      directly notify the handset when the server has a notification for it, so
-      smartphone manufacturers decided to maintain opened channels with their
-      servers so it's possible to notify handsets asynchronously.
+      In the case of private networks, it's obvious that it's not possible to
+      directly notify the handset when the server has a notification for it (because it is behind a NAT), so
+      smartphone manufacturers or mobile OS developers decided to maintain opened channels with their
+      servers so it is possible to notify handsets asynchronously, and only when
+      something happens on the server.
     </para>
     <para>
       On the other hand, if the handset has a public address, or is using IPv6,
-      it's teorically possible to send the message directly making third party
-      solutions unuseful, however in order to protect users, carriers can deploy
-      firewalls to avoid direct access from Internet to the handset.
+      it is theoretically possible to send the message directly making third party
+      solutions not useful, however in order to protect users, carriers might deploy
+      firewalls to avoid direct access from Internet to handsets.
     </para>
   </section>
 
@@ -51,7 +51,7 @@
             channel on the mobile network.
           </para>
           <para>
-            Normally the network sets a handsent into this state when it's
+            Normally the network sets a handset into this state when it's
             transmitting a big amount of data.
           </para>
           <para>
@@ -73,7 +73,7 @@
           </para>
           <para>
             The inactivity time of this state is a little longer (30 seconds) and
-            is konwn as T2 timer. When T2 timer is shotted, the handset will be
+            is known as T2 timer. When T2 timer is shotted, the handset will be
             moved to Cell_PCH or URA_PCH (depending on the type of network)
           </para>
         </listitem>
@@ -81,8 +81,8 @@
           Cell_PCH or URA_PCH (PCH: Paging Channel) (URA: UTRAN Registration Area)
           <para>
             In this state the handset is not able to send any data except
-            signalling information in order to be able to localize the handset
-            inside the celullar network.
+            signaling information in order to be able to localize the handset
+            inside the cellular network.
           </para>
           <para>
             In both states, the RRC connection is established and open, but it's
@@ -97,8 +97,8 @@
             The T3 timer defines the maximum time to be in a PCH state. This timer
             is longer than T1 and T2 and depends on each carrier. When it's fired
             the handset is moved to IDLE mode so if new data transmission is needed
-            the handset will need near 2 seconds to restablish the channel and a
-            lot of signalling messages.
+            the handset will need near 2 seconds to reestablish the channel and a
+            lot of signaling messages.
           </para>
         </listitem>
         <listitem>
@@ -108,7 +108,7 @@
             stopped.
           </para>
           <para>
-            In this state, the radio is only listening to radio messages quering
+            In this state, the radio is only listening to radio messages querying
             the handset to "Wake Up" (paging messages).
           </para>
           <para>
@@ -129,7 +129,7 @@
     </para>
     <para>
       The following scheme represent the different radio states ordered by
-      power comsuption on the device:
+      power consumption on the device:
     </para>
     <para>
       <imagedata fileref="resources/rcc_states.png" align="center" width="5in" />
@@ -139,7 +139,7 @@
   <section>
     <title>Mobile Network. Package domain states</title>
     <para>
-      In the 3GPP TS 23.060 specification, we can analyse all the package domain
+      In the 3GPP TS 23.060 specification, we can analyze all the package domain
       states of the GMM Layer (GPRS Mobility Management).
     </para>
     <para>
@@ -212,7 +212,7 @@
             <entry>READY/PMM_CONNECTED</entry>
             <entry>
               <para>
-                The handset is transmiting or receiving data information using a
+                The handset is transmitting or receiving data information using a
                 dedicated channel or a HSPA shared channel.
               </para>
             </entry>
@@ -222,11 +222,11 @@
             <entry>READY/PMM_CONNECTED</entry>
             <entry>
               <para>
-                The handset had been transmiting or receiving data some seconds ago
+                The handset had been transmitting or receiving data some seconds ago
                 and due to inactivity had been moved to the Cell_FACH RCC state.
               </para>
               <para>
-                Also it's possible that the handset is transmiting or receiving
+                Also it's possible that the handset is transmitting or receiving
                 small amount of data like pings, keep-alives, cell updates,...
               </para>
             </entry>
@@ -240,9 +240,9 @@
                 inactivity had been moved to this less resource consume state.
               </para>
               <para>
-                However, the signalling channel is available and is able to change
+                However, the signaling channel is available and is able to change
                 to a data transmission state like FACH or DCH with a little amount
-                of signalling.
+                of signaling.
               </para>
             </entry>
           </row>
@@ -251,8 +251,8 @@
             <entry>STANDBY/PMM_IDLE</entry>
             <entry>
               <para>
-                The handset is not transmiting nor receiving any amount of data
-                and also the signalling connection is closed.
+                The handset is not transmitting nor receiving any amount of data
+                and also the signaling connection is closed.
               </para>
               <para>
                 However the IP address is maintained by the network and associated
@@ -261,10 +261,10 @@
               <para>
                 This is one of the most interesting states since the PDP context
                 is not closed, the IP address is still valid and the handset is
-                not consuming baterry, network traffic,...
+                not consuming battery, network traffic,...
               </para>
               <para>
-                As soon as the handset needs to restablish the data channel the
+                As soon as the handset needs to reestablish the data channel the
                 radio state will be changed to FACH or DCH.
               </para>
             </entry>
@@ -289,7 +289,7 @@
                 for this handset.
               </para>
               <para>
-                Normally this state is after 24h of innactivity in the package
+                Normally this state is after 24h of inactivity in the package
                 domain.
               </para>
             </entry>
@@ -300,29 +300,29 @@
   </section>
 
   <section>
-    <title>Mobile Network. Signalling storms</title>
+    <title>Mobile Network. Signaling storms</title>
     <para>
       This is a carrier well-know effect after the big adoption of smartphones
       around the word.
     </para>
     <para>
       As we explained in previous sections, each time the network decides to
-      move a handset from one state to another is needed to restablish channels
+      move a handset from one state to another is needed to reestablish channels
       and starts a negotiation between the network and the handset with the
-      signalling protocol.
+      signaling protocol.
     </para>
     <para>
       Since nowadays handsets are sending keep-alives to maintain their connections
-      opened, the efect is that the handsets is continously changing from one
-      state to another producing a lot of signalling in the network and also
+      opened, the effect is that the handsets is continuously changing from one
+      state to another producing a lot of signaling in the network and also
       consumes a lot of battery resources.
     </para>
   </section>
 
   <section>
-    <title>Mobile Network. Battery comsuption</title>
+    <title>Mobile Network. Battery consumption</title>
     <para>
-      The battery comsuption depends on the Radio state. The following list
+      The battery consumption depends on the Radio state. The following list
       represent the amount of battery needed on each state represented in
       relative units:
     </para>

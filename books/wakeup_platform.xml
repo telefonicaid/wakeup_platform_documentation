@@ -17,23 +17,23 @@
       <author>
         <personname>
           <firstname>Fernando</firstname>
-          <surname>Rodriguez Sela</surname>
+          <surname>Rodríguez Sela</surname>
         </personname>
       </author>
       <author>
         <personname>
           <firstname>Guillermo</firstname>
-          <surname>Lopez Leal</surname>
+          <surname>López Leal</surname>
         </personname>
       </author>
     </authorgroup>
     <copyright>
       <year>2014</year>
-      <holder>Telefonica Digital (PDI), All rights reserved.</holder>
+      <holder>Telefónica Digital (PDI), All rights reserved.</holder>
     </copyright>
     <revhistory>
       <revision>
-        <revnumber>1.0</revnumber>
+        <revnumber>1.0alpha</revnumber>
         <date>January 2014</date>
         <authorinitials>FRS</authorinitials>
         <revremark>First Edition</revremark>

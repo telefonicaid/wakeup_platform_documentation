@@ -6,13 +6,13 @@
 
   <title>Protocol</title>
   <para>
-    The protocol is designed to be as simple as possible (KISS philosofy).
+    The protocol is designed to be as simple as possible (KISS philosophy).
   </para>
 
   <section>
     <title xml:id="networkId_title">Network identification</title>
     <para>
-      First of all, mobile device SHALL inform their PUSH platforms in wich
+      First of all, mobile device SHALL inform their Push platforms in which
       mobile network are they connected. To do this, two alternatives can be
       used:
       <itemizedlist>
@@ -26,7 +26,7 @@
             mobile network codes.
           </para>
           <para>
-            <link xlink:href="http://dvcs.w3.org/hg/push/raw-file/default/index.html">
+            <link xlink:href="http://dvcs.w3.org/hg/Push/raw-file/default/index.html">
               Complete list of all MCC-MNC pairs
             </link>
           </para>
@@ -45,10 +45,10 @@
           <para>
             This other method identifies each mobile network by a UNIQUE HASH
             (selected by the MNO) but any RANDOM and UNIQUE string is valid.
-            An UUID is recomended.
+            An UUID is recommended.
           </para>
           <para>
-            The mobile device SHALL inform his Network ID to the PUSH platform
+            The mobile device SHALL inform his Network ID to the Push platform
             instead the MCC/MNC pair.
           </para>
         </listitem>
@@ -70,15 +70,15 @@
   <section>
     <title>APIs</title>
     <section>
-      <title>API: Mobile device -> PUSH platform</title>
+      <title>API: Mobile device -> Push platform</title>
       <para>
-        The mobile device SHALL inform his own PUSH platform each time some
+        The mobile device SHALL inform his own Push platform each time some
         network data is changed. (network change, IP change, ...).
       </para>
       <para>
-        The data sent to the PUSH platform SHALL contain:
+        The data sent to the Push platform SHALL contain:
         <itemizedlist>
-          <listitem>Mobile IP addres</listitem>
+          <listitem>Mobile IP address</listitem>
           <listitem>
             TCP or UDP port in which the mobile agent is listening
           </listitem>
@@ -88,7 +88,7 @@
     </section>
 
     <section>
-      <title>API: PUSH platform -> WakeUp platform (Global node)</title>
+      <title>API: Push platform -> WakeUp platform (Global node)</title>
       <para>
         This service exposes a REST API in which some resources are shared with
         other platform services (please refer to "<xref linkend="protocol" endterm="common_rest_res_title" />")
@@ -135,7 +135,7 @@
               this. This header SHALL contain 'SUCCESS'.
             </para>
             <para>
-              Any other value will be cosidered an invalid certificate and
+              Any other value will be considered an invalid certificate and
               the connection will be rejected.
             </para>
           </listitem>

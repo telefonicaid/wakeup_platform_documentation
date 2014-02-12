@@ -6,71 +6,55 @@
 
   <title>Introduction</title>
   <para>
-    Today, all mobile platform has it's own Push platform used to deliver
-    asynchronous messages.
+    Today, all mobile platforms has their own Push Notification platform used to deliver asynchronous messages to devices, trying to keep the minium
+    of opened connections from the system and apps to third party servers and encapsulate all push information in one single channel.
   </para>
   <para>
-    All these platforms have a common denominator, all of them maintains a TCP
-    socket opened all the time.
+    All these platforms have a common denominator, all of them maintains a TCP socket opened all the time.
   </para>
   <para>
-    This socket will be used to deliver the notifications when it's needed.
+    This socket kept opened by the system is used to deliver the notifications when it's needed. Some of the systems are really lightweight, meanwhile others carry a lot of payload, have signaling messages, priorities and other advanced features.
   </para>
-   
+
   <section>
     <title>Current Internet solutions issues</title>
     <para>
-      Internet PUSH solutions are based on a public accesible server which
-      handles all the notification delivery.
+      Internet Push solutions are based on a public accessible server which handles all the notification acceptance and delivery from third party servers to the phones.
     </para>
     <para>
-      These solutions were designed without considering the mobile networks
-      way of working and forces the handset to maintain an open socket with
-      the server in order to avoid misnotifications.
+      These solutions are not designed considering how mobile networks work and forces the handset to maintain an open socket with the server in order to deliver the notification as quick as possible.
     </para>
     <para>
-      This way of working increases the signalling and the handsets battery
-      consume.
-      For more information about this, please refer to the
-      "<xref linkend="network_issues" endterm="network_issues_title" />" chapter
+      This way of working increases the signaling in cellular networks and handsets battery usage. For more information about this, please refer to "<xref linkend="network_issues" endterm="network_issues_title" />" chapter.
     </para>
   </section>
 
   <section>
     <title>Service Description</title>
     <para>
-      The WakeUp platform is aimed to wakeup mobile devices so PUSH servers
-      can avoid opening sockets all the time.
+      The WakeUp platform is aimed to wakeup mobile devices so external Push servers of any kind of operating system can avoid having an open socket all the time and sending pings to keep that connection alive.
     </para>
     <para>
-      The main objective of this service is to deliver wakeup packeges based
-      on some user information given by the PUSH platform. It's designed to
-      work in cellular networks environments.
+      The main objective of this service is to deliver wakeup packages based on some user information given by the Push platform. It's designed to work in cellular networks environments and have a small and simple integration with the OBs.
     </para>
     <para>
-      This server will provide a public API for trusted partners which allow
-      them to wakeup any mobile device inside mobile operator networks.
+      This server will provide a public API only for trusted partners which allow them to wakeup any mobile device inside mobile operator networks, thus removing the necessity of having an opened socket all the time.
     </para>
   </section>
 
   <section>
-    <title>What is supposed third party PUSH platforms will use this</title>
+    <title>What Push platforms will use this system?</title>
     <para>
-      Third party PUSH platform providers like Mozilla FirefoxOS PUSH server
-      should sign an agreement with mobile operators to have access to the
-      wake up public APIs
+      Third party Push platform providers like Mozilla's FirefoxOS Push server should sign an agreement with mobile operators to have access to the wake up public APIs.
     </para>
     <para>
-      Third party clients will benefict of the battery safe of their devices
-      and reduce the network compsumption on any country.
+      These third party clients will benefit from the battery savings of their devices and reduced network consumption on any cellular network.
     </para>
     <para>
-      After sign the agreement, the Operator will deliver a signed certificate
-      which identifies in a unique way the wakeup platform users.
+      After signing the agreement, the Operator will deliver a signed certificate (self-signed or verified by third parties CAs) which will identify in a unique way the wakeup platform users.
     </para>
     <para>
-      This certificate SHALL be used to Authenticate and Authorizate access to
-      the WakeUp platform.
+      This certificate MUST be used to Authenticate and Authorize access to the WakeUp platform.
     </para>
   </section>
 </chapter>
