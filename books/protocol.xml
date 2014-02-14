@@ -213,6 +213,75 @@
               </listitem>
             </itemizedlist>
           </para>
+          <para>
+            Multiple checks will be done before the client receives the final
+            response.
+          </para>
+          <para>
+            These errors will inform about different issues:
+          </para>
+          <para>
+            <itemizedlist>
+              <listitem>
+                Mandatory parameters:
+                <para>
+                  If the mandatory parameters are not present a status code 400
+                  will be responded.
+                </para>
+                <para>
+                  Mandatory parameters are: ip and port numbers and netid or
+                  MCC/MNC pair.
+                </para>
+              </listitem>
+              <listitem>
+                Mobile device identification (IP and Port)
+                <para>
+                  Also the IP parameter will be validated as a valid IPv4
+                  address. The Port shall be between 1 and 65535.
+                </para>
+              </listitem>
+              <listitem>
+                Mobile network identification
+                <para>
+                  If the MCC/MNC pair or NetID suplied is not managed by the
+                  server (local node not found) a status code 404 (not found)
+                  is responded.
+                </para>
+              </listitem>
+              <listitem>
+                Device in the network
+                <para>
+                  If the device IP is not inside the mobile network ranges, a
+                  status code 400 will be responded (No valid device IP)
+                </para>
+              </listitem>
+              <listitem>
+                Mobile network status
+                <para>
+                  If the mobile network local server status is offline for any
+                  cause, a status code 503 is returned and should be retried
+                  later.
+                </para>
+              </listitem>
+              <listitem>
+                Protocol accepted
+                <para>
+                  If the network configuration informs about the optional
+                  supported protocols parameter, the protocol queried by the
+                  client (proto parameter) will be validated and if the protocol
+                  is not accepted by the local node a status code 400 will be
+                  sent to the client.
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+          <para>
+            In any other case a 200 OK status code will be responded. This
+            means that the platform will try to deliver the message to the
+            local node, anyway if any error is produced during this process
+            the client won't be informed so it should retry again if the device
+            is not waked up.
+          </para>
         </section>
       </section>
       <section>
