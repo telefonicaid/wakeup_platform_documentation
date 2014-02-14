@@ -175,34 +175,4 @@
     </para>
   </section>
 
-  <section>
-    <title>Provision mobile networks data</title>
-    <para>
-      Into the utils/mccmnc_provisioner folder of main wakeup_platform project
-      (<xref linkend="sourcecode" endterm="wu_platform_project" />)
-    </para>
-    <para>
-      To launch it you need AWK and Redis CLI support.
-    </para>
-    <para>
-      <programlisting>awk -f load_mcc_mnc_onredis.awk mcc_mnc_list.csv
-      </programlisting>
-    </para>
-    <para>
-      If you need a localhost complete environment (for testing purposes, not
-      recomended in production), you can provision a test network with these
-      simple commands:
-    </para>
-    <para>
-      <programlisting><xi:include
-        href="../../utils/provision_testnetwork.sh" parse="text" />
-      </programlisting>
-    </para>
-    <para>
-      Check <xref linkend="sourcecode" endterm="op_collection" /> and
-      <xref linkend="sourcecode" endterm="net_collection" /> sections to better
-      understand these scripts.
-    </para>
-  </section>
-
 </chapter>
