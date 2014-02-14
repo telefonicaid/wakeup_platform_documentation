@@ -13,12 +13,22 @@
   <section>
     <title>Local nodes</title>
     <para>
+      If no parameter is passed, the config.default.json file will be used.
+    </para>
+    <para>
+      If it's desired to use another configuration file, it can be passed
+      through command line or WAKEUP_CONFIG environment variable.
     </para>
   </section>
 
   <section>
     <title>Global node</title>
     <para>
+      If no parameter is passed, the config.default.json file will be used.
+    </para>
+    <para>
+      If it's desired to use another configuration file, it can be passed
+      through command line or WAKEUP_CONFIG environment variable.
     </para>
   </section>
 
@@ -52,6 +62,8 @@
 
   <section>
     <title>Data Storage</title>
-
+    <para>
+      No additional data storage is used. Only configuration files are needed
+    </para>
   </section>
 </chapter>
