@@ -233,8 +233,12 @@
             status of the network (offline)
           </para>
           <para>
+            A list of supported protocols can be (it's optional) listed into the
+            protocols array.
+          </para>
+          <para>
             <programlisting>
-               [{"netid":"214-07","mccmnc":"214-07","range":"10.0.0.0/8","offline":true}]
+               {"nets": [{"netid":"214-07","mccmnc":"214-07","range":"10.0.0.0/8","protocols": ["tcp","udp"],"offline":true}]}
             </programlisting>
           </para>
         </section>

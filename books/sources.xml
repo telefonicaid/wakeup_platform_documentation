@@ -142,6 +142,21 @@
             </para>
           </listitem>
           <listitem>
+            protocols:
+            <para>
+              This is an optional parameter.
+            </para>
+            <para>
+              It's an array with all supported wakeup protocols. By default
+              tcp and udp should be declared.
+            </para>
+            <para>
+              If this data is declared, will be sent to the clients on the
+              netinfo/v1 query and will be used to validate the proto parameter
+              of wakeup/v1 API.
+            </para>
+          </listitem>
+          <listitem>
             offline:
             <para>
               Used by the local server checker to inform about a fail in the
