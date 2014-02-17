@@ -6,7 +6,7 @@
 
   <title>Introduction</title>
   <para>
-    Today, all mobile platforms has their own Push Notification platform used to deliver asynchronous messages to devices, trying to keep the minium
+    Today, all mobile platforms has their own Push Notification platform used to deliver asynchronous messages to devices, trying to keep the minimum
     of opened connections from the system and apps to third party servers and encapsulate all push information in one single channel.
   </para>
   <para>

@@ -51,6 +51,7 @@
   <xi:include href="sources.xml" />
   <xi:include href="architecture.xml" />
   <xi:include href="security.xml" />
+  <xi:include href="logtraces.xml" />
   <chapter>
     <title>License</title>
     <programlisting>

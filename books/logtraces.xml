@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chapter version="5.0" xml:id="logtraces" xml:lang="en" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>Log traces</title>
+  <para>This chapter summarizes what are the main logs the wakeup platform writes to the console (or file if it is configured).
+  </para>
+  <para>It is divided in two different parts, one for global server and other for the local part.
+  </para>
+  <note>Debug messages are not shown. Only starting from the
+
+    <code>info</code>
+    level (this also includes
+
+    <code>error</code>
+    ,
+
+    <code>critical</code>
+    ).</note>
+  <section>
+    <title>Common information</title>
+    <para>Here is some information about how to configure log levels and the logger itself (which is the
+
+      <code>log4js</code>
+      module for NodeJS) with common configurations that are copied and adapted from the main log4js
+
+      <link xlink:href="https://github.com/nomiddlename/log4js-node#configuration">configuration page</link></para>
+    <programlisting>&quot;log4js&quot;: {
+  &quot;appenders&quot;: [
+    {
+      &quot;type&quot;: &quot;file&quot;,
+      &quot;filename&quot;: &quot;NS_WakeUp.log&quot;,
+      &quot;category&quot;: &quot;WakeUp_Global&quot;
+    },
+    { &quot;type&quot;: &quot;console&quot; }
+  ],
+  &quot;level&quot;: &quot;ALL&quot;
+}
+    </programlisting>
+    <para>Most of the configuration is self-explanatory, but the main idea needed to tweak is:
+    </para>
+    <itemizedlist>
+      <listitem>
+        <formalpara>
+          <title>
+            <code>appenders</code>
+          </title>
+          <para>It is an array of different appenders that is going to be executed. The default file (shown above) has two different appenders:
+
+            <code>file</code>
+            (which need more parameters to work correctly) and
+
+            <code>console</code>
+            .</para>
+        </formalpara>
+      </listitem>
+      <listitem>
+        <formalpara>
+          <title>
+            <code>level</code>
+          </title>
+          <para>Used to log from that level.
+
+            <code>ALL</code>
+            means that everything is going to be logged, but can be used
+
+            <code>TRACE</code>
+            ,
+
+            <code>DEBUG</code>
+            ... All levels are configured in the
+
+            <link xlink:href="https://github.com/nomiddlename/log4js-node/blob/master/lib/levels.js#L58">log4js page</link>
+            .</para>
+        </formalpara>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>Global</title>
+    <para>There are different logs, mostly two of them are the most important.</para>
+    <section>
+      <title>Wakeup logs</title>
+      <para>the first one, shown just after this paragraph with explanation it is a wakeup information message, and its structure is:
+      </para>
+      <itemizedlist>
+        <listitem>
+          <formalpara>
+            <title>timestamp (human readable)</title>
+            <para>Human readable timestamp.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>level</title>
+            <para>
+              <code>INFO</code>in this case.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>UNIX timestamp</title>
+            <para/>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>UUID of the petition</title>
+            <para>This is the main trace information between instances (both UDP and local one). This comes from the
+              <code>x-tracking-id</code>
+              header in the HTTP request. If it is not on the request, it is added for tracking purposes.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>API reached</title>
+            <para>This can be one of:
+              <code>wakeup</code>
+              ,
+              <code>about</code>
+              ,
+              <code>status</code>
+              ,
+              <code>netinfo</code>
+              .</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Certificate information</title>
+            <para>CN is the most important part, as it says the issued client. This comes from the SSL terminator as the <code>X-Client-Cert-DN</code> HTTP header.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>MCC</title>
+            <para/>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>MNC</title>
+            <para/>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Real IP of the petition</title>
+            <para>This comes from the
+              <code>x-real-ip</code>
+              header in the request. If it is not available, it just shows
+              <code>undefined</code></para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Client (IP:port) to wakeup</title>
+            <para/>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Protocol</title>
+            <para>Protocol selected to wakeup the client. It can be
+              <code>UDP</code>
+              (default) or
+              <code>TCP</code>
+              .</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>IP of the internal petition</title>
+            <para/>
+          </formalpara>
+        </listitem>
+      </itemizedlist>
+      <code>[2014-02-06 13:38:37.405] [INFO] WakeUp_Global - 1391690317405 -- 63b58913-e2d8-1e60-1a40-617fdf9929ef -- wakeup -- /C=SP/ST=DummyState/L=DummyLocation/O=WakeUpPlatformOrg/CN=client_test -- 214 -- 07 -- undefined -- 127.0.0.1:44444 -- udp -- 127.0.0.1
+      </code>
+    </section>
+    <section>
+      <title>Request to local node</title>
+      <para>Request is similar to above, with the differente that instead of showing the page requested, it shows the status code from the request from the other end.</para>
+       <code>[2014-02-06 13:38:37.416] [INFO] WakeUp_Global - 1391690317416 -- 63b58913-e2d8-1e60-1a40-617fdf9929ef -- 200 -- Accepted
+      </code>
+    </section>
+  </section>
+  <section>
+    <title>Local</title>
+    <para>
+      This has also two main logs for tracing and wakeup purposes.
+    </para>
+    <section>
+      <title>
+      </title>
+      <para>
+        <itemizedlist>
+        <listitem>
+          <formalpara>
+            <title>timestamp (human readable)</title>
+            <para>Human readable timestamp.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>level</title>
+            <para>
+              <code>INFO</code> in this case.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>UNIX timestamp</title>
+            <para/>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>UUID of the petition</title>
+            <para>This is the main trace information between instances (both UDP and local one). This comes from the
+              <code>x-tracking-id</code>
+              header in the HTTP request. If it is not on the request, it is added for tracking purposes.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>API reached</title>
+            <para>This can be one of:
+              <code>wakeup</code>
+              ,
+              <code>about</code>
+              ,
+              <code>status</code>
+              ,
+              <code>netinfo</code>
+              .</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Certificate information</title>
+            <para>CN is the most important part, as it says the issued client. This comes from the SSL terminator as the <code>X-Client-Cert-DN</code> HTTP header.</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Client (IP:port) to wakeup</title>
+            <para/>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>Protocol</title>
+            <para>Protocol selected to wakeup the client. It can be
+              <code>UDP</code>
+              (default) or
+              <code>TCP</code>
+              .</para>
+          </formalpara>
+        </listitem>
+        <listitem>
+          <formalpara>
+            <title>IP of the internal petition</title>
+            <para/>
+          </formalpara>
+        </listitem>
+      </itemizedlist>
+        <code>
+          [2014-02-06 13:38:37.414] [INFO] WakeUp_Local - 1391690317414 -- 63b58913-e2d8-1e60-1a40-617fdf9929ef -- wakeup -- /C=SP/ST=DummyState/L=DummyLocation/O=WakeUpPlatformOrg/CN=client_test -- 127.0.0.1:44444 -- udp -- 127.0.0.1
+        </code>
+      </para>
+    </section>
+    <section>
+      <title>Sent notification</title>
+      <para>
+        Similar to prior requests, indicates on the latest parameter if it went well (<code>200</code>) or bad (other message). For <code>UDP</code> requests, as there are no ACK from the client, it writes <code>OK</code> if the datagram was sent out of the network stack.
+      </para>
+      <code>
+  [2014-02-06 13:38:37.415] [INFO] WakeUp_Local - 1391690317414 -- 63b58913-e2d8-1e60-1a40-617fdf9929ef -- 127.0.0.1:44444 -- udp -- OK
+      </code>
+    </section>
+  </section>
+</chapter>

@@ -12,7 +12,7 @@
   <section>
     <title xml:id="networkId_title">Network identification</title>
     <para>
-      First of all, mobile device SHALL inform their Push platforms in which
+      First of all, the mobile wanting to use this API device MUST inform their Push platforms in which
       mobile network are they connected. To do this, two alternatives can be
       used:
       <itemizedlist>
