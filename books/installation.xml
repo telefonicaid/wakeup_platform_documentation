@@ -82,6 +82,21 @@
         ]]></programlisting>
       </para>
       <para>
+        Due to some limitations in the reference platform (Firefox OS), netid will have
+        the form of an IP address (four numbers between 0 and 255 separated by dots).
+      </para>
+      <para>
+        Also, if the network where this wakeup platform is installed have only one
+        network, or don't offer netid, or wants to be backward compatible with old
+        versions of the Push platform, it will provide a DEFAULT network for devices
+        that only send a MCC-MNC pair.
+      </para>
+      <para>
+        The default netid will have the form "MCC-MNC.default", so if your MCC is 214
+        and your MNC 07, if you provide a network with netid "214-07.default", this
+        will be used for devices that doesn't sent us a netid.
+      </para>
+      <para>
         See the network collection info here:
         <xref linkend="sourcecode" endterm="net_collection" />
       </para>

@@ -49,7 +49,7 @@
           </para>
           <para>
             The mobile device SHALL inform his Network ID to the Push platform
-            instead the MCC/MNC pair.
+            and also the MCC/MNC pair.
           </para>
         </listitem>
       </itemizedlist>
@@ -63,7 +63,25 @@
       only need to resolve a simple DNS query to recover the Mobile Network ID
     </para>
     <para>
-      [TO-DO] DNS ENTRY FORMAT
+      Currently, this information will be available quering DNS A entry:
+    </para>
+    <para>
+      wakeup.mnc[MNC].mcc[MCC].3gppnetwork.org
+    </para>
+    <para>
+      For example, if the mobile is inside the network of Movistar España (214-07),
+      the query will be to A register:
+    </para>
+    <para>
+      wakeup.mnc007.mcc214.3gppnetwork.org
+    </para>
+    <para>
+      In the future, a TXT entry should be used, but now, only A records are in use
+      by the Firefox OS reference platform, so the Network ID will have a "IP adress" form.
+    </para>
+    <para>
+      Anyway, this will be used as an string, so really, the netid will be four numbers
+      between 0 and 255 separated by dots.
     </para>
   </section>
 
